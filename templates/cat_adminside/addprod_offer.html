@@ -1,0 +1,153 @@
+{% extends 'cat_adminside/cat_adminbase.html' %}
+
+
+{% load static %}
+
+
+
+
+{% block blockcontent %}
+
+
+   
+
+        <!--  BEGIN CONTENT PART  -->
+        <div id="content" class="main-content">
+            <div class="container">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h3>Add/Edit Offer</h3>
+                        <div class="crumbs">
+                            <ul id="breadcrumbs" class="breadcrumb">
+                                <li><a href="index.html"><i class="flaticon-home-fill"></i></a></li>
+                                <li><a href="#">eCommerce</a></li>
+                                <li class="active"><a href="#">Add/Edit Offer</a> </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+                        <div class="statbox widget box box-shadow">
+                            <div class="widget-header">                                
+                                <div class="row">
+                                    <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                        <h4>Add Offer </h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-content widget-content-area add-category">
+                                <div class="row">
+                                    <div class="mx-xl-auto col-xl-10 col-md-12">
+                                        {% for msg in messages %}
+                                        <p class="text-danger">{{msg}}</p>
+                                        {% endfor %}
+                                        <div class="card card-default">
+                                            <div class="card-heading"><h2 class="card-title"><span>General Information</span></h2></div>
+                                            <div class="card-body">
+                                                <div class="card-body">
+                                                    <form class="form-horizontal" method="POST" enctype="multipart/form-data">
+                                                        {% csrf_token %}
+                                                        
+                                                        <div class="form-group mb-4">
+                                                            <div class="row">
+                                                                <label class="col-md-4">Product :</label>
+                                                                <div class="col-md-8">
+                                                                    <select class="form-control form-custom mb-4" name="product">
+                                                                        <option value="{{p_offer.product.id}}">{{p_offer.product}}</option>
+                                                                        
+                                                                        {% for p in product %}
+                                                                        <option value="{{p.id}}">{{p.product_name}}</option>
+                                                                        {% endfor %}
+                                                                        
+                                                                       
+                                                                    
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="form-group mb-4 mt-5">
+                                                            <div class="row">
+                                                                <label class="col-md-4">Offer  :</label>
+                                                                <div class="col-md-8">
+                                                                    <input class="form-control" value="{{p_offer.offer}}" name="offer" type="text" >
+                                                                    <span class="text-danger" id="name-error"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="form-group mb-4">
+                                                            <div class="row">
+                                                                <label class="col-md-4">Valid From :</label>
+                                                                <div class="col-md-8">
+                                                                    {% if p_offer %}
+                                                                    <input name="from" type="" value="{{p_offer.valid_from}}">
+                                                                    <br>
+                                                                    <input type="datetime-local" name="from">
+                                                                    <span class="text-danger" id="desc-error" ></span>
+                                                                    {% else %}
+                                                                    <input type="datetime-local" name="from">
+                                                                    <span class="text-danger" id="desc-error" ></span>
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group mb-4">
+                                                            <div class="row">
+                                                                <label class="col-md-4">Valid To :</label>
+                                                                <div class="col-md-8">
+                                                                    {% if p_offer %}
+                                                                    <input name="to" type="" value="{{p_offer.valid_to}}">
+                                                                    <br>
+                                                                    <input type="datetime-local" name="to">
+                                                                    <span class="text-danger" id="desc-error" ></span>
+                                                                    {% else %}
+                                                                    <input type="datetime-local" name="to">
+                                                                    <span class="text-danger" id="desc-error" ></span>
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <!-- <div class="form-group mb-4">
+                                                            <div class="row">
+                                                                <label class="col-md-4">Page Title :</label>
+                                                                <div class="col-md-8">
+                                                                    <input class="form-control" name="name" type="text">
+                                                                </div>
+                                                            </div>
+                                                        </div> -->
+                                                        <!-- <div class="form-group mb-4">
+                                                            <div class="row">
+                                                                <label class="col-md-4">Meta Keywords :</label>
+                                                                <div class="col-md-8">
+                                                                    <textarea class="form-control" rows="5" cols="5" name="description"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div> -->
+                                                        <div class="align-center"> 
+                                                            <button type="submit" class="btn btn-primary mt-5 ms-5 " onclick="return formvalidation()">Submit</button>
+                                                            <!-- <input value="Submit" class="btn mt-5 mb-4" type="submit"> -->
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+               
+            </div>
+        </div>
+        <!--  END CONTENT PART  -->
+
+    
+    <!-- END MAIN CONTAINER -->
+
+{% endblock  %}

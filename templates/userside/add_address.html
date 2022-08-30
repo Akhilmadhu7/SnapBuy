@@ -1,0 +1,325 @@
+{% extends 'userside/userbase.html' %}
+
+{% load static %}
+
+
+
+{% block contentblock %}
+
+<body>
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->  
+
+    <!-- Body main wrapper start -->
+    <div class="wrapper">
+
+       
+
+       
+
+        <!-- Start page content -->
+        <div id="page-content" class="page-wrapper section">
+
+            <!-- LOGIN SECTION START -->
+            <div class="login-section mb-80">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 offset-lg-2">
+                            <div class="my-account-content" id="accordion">
+                                <!-- My Personal Information -->
+                                <div class="card mb-15">
+                                    <div  class="card-header" id="headingOne">
+                                        <h4 class="card-title">
+                                            <a data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Add Address
+                                                </a>
+                                        </h4>
+                                    </div>
+                                    <div  id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-bs-parent="#accordion">
+                                        <div class="card-body">
+                                            <form action="{% url 'address_add' %}" method="POST">
+                                                {% csrf_token %}
+                                                <div class="new-customers">
+                                                    <div class="p-30">
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                <input type="text" id="name"  name="name" placeholder="Name"  onkeyup="namevalidation()">
+                                                                <span class="text-danger" id="name-error"></span>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <input type="text" id="phone" name="phone_number"  placeholder="Phone here..."  onkeyup="numbervalidation()">
+                                                                <span class="text-danger" id="phone-error"></span>
+                                                            </div>
+                                                            
+                                                            
+                                                            <!-- <div class="col-sm-6">
+                                                                <input type="text" name="phone_number" required="" placeholder="Phone here...">
+                                                            </div> -->
+                                                        </div>
+
+                                                        <input type="text" id="email" name="email" placeholder="Email address here..."  onkeyup="emailvalidation()">
+                                                            <span class="text-danger" id="email-error"></span>
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                <input type="text" id="city"  name="city" placeholder="city" onkeyup="cityvalidation()">
+                                                                <span class="text-danger" id="city-error"></span>
+                                                            </div>
+
+                                                            <div class="col-sm-6">
+                                                                <input type="text" id="state"  name="state" placeholder="state" onkeyup="statevalidation()">
+                                                                <span class="text-danger" id="state-error"></span>
+                                                            </div>
+
+                                                            <div class="col-sm-6">
+                                                                <input type="text" id="pincode"  name="pincode" placeholder="pincode" onkeyup="pinvalidation()">
+                                                                <span class="text-danger" id="pin-error"></span>
+                                                            </div>
+
+                                                            <div class="col-sm-6">
+                                                                <input type="text"  id="country" name="country" placeholder="Country" onkeyup="countryvalidation()">
+                                                                <span class="text-danger" id="country-error"></span>
+                                                            </div>
+
+                                                        </div>
+                                                        
+                                                        
+                                                        <textarea name="address" id="address"  placeholder="Address" onkeyup="addressvalidation()" class="custom-textarea"></textarea>
+                                                        <span class="text-danger" id="address-error"></span>
+                                                        <!-- <input type="password" value="{{profile.user.password}}"  placeholder="Password">
+                                                        <input type="password" placeholder="Confirm Password"> -->
+                                                        <textarea class="custom-textarea"
+                                                            placeholder="Additional information..."></textarea>
+                                                       
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                
+                                                                
+                                                                <button class="submit-btn-1 mt-20 btn-hover-1" type="submit" onclick="return formvalidationn()">Save</button>
+                                                                    
+                                                                <!-- "submit-btn-1 mt-20 btn-hover-1" -->
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <button class="submit-btn-1 mt-20 btn-hover-1 f-right"
+                                                                    type="reset">Clear</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                               
+                                <!-- Payment Method -->
+                                <!-- <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title">
+                                            <a data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">Payment
+                                                Method</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-bs-parent="#accordion">
+                                        <div class="panel-body">
+                                            <form action="#">
+                                                <div class="new-customers p-30">
+                                                    <select class="custom-select">
+                                                        <option value="defalt">Card Type</option>
+                                                        <option value="c-1">Master Card</option>
+                                                        <option value="c-2">Paypal</option>
+                                                        <option value="c-3">Paypal</option>
+                                                        <option value="c-4">Paypal</option>
+                                                    </select>
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <input type="text" placeholder="Card Number">
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <input type="text" placeholder="Card Security Code">
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <select class="custom-select">
+                                                                <option value="defalt">Month</option>
+                                                                <option value="c-1">January</option>
+                                                                <option value="c-2">February</option>
+                                                                <option value="c-3">March</option>
+                                                                <option value="c-4">April</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <select class="custom-select">
+                                                                <option value="defalt">Year</option>
+                                                                <option value="c-4">2017</option>
+                                                                <option value="c-1">2016</option>
+                                                                <option value="c-2">2015</option>
+                                                                <option value="c-3">2014</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <button class="submit-btn-1 mt-20 btn-hover-1" type="submit"
+                                                                value="register">pay now</button>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <button class="submit-btn-1 mt-20 btn-hover-1" type="submit"
+                                                                value="register">cancel order</button>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <button class="submit-btn-1 mt-20 f-right btn-hover-1" type="submit"
+                                                                value="register">continue</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- LOGIN SECTION END -->
+        </div>
+        <!-- End page content -->
+
+        <!-- START FOOTER AREA -->
+       
+
+       
+    </div>
+    <!-- Body main wrapper end -->
+
+</body>
+ 
+{% endblock  %}
+
+{% block scripts %}
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+
+        
+
+    var nameError = document.getElementById('name-error')
+    var emailError = document.getElementById('email-error')
+    var phoneError = document.getElementById('phone-error')
+    var pinError = document.getElementById('pin-error')
+    var cityError = document.getElementById('city-error')
+    var addressError = document.getElementById('address-error')
+    var stateError = document.getElementById('state-error')
+    var countryError = document.getElementById('country-error')
+    var formError = document.getElementById('form-error')
+
+    function namevalidation(){
+
+        var name = document.getElementById('name').value
+        if(!name.match(/^[A-Za-z\s]{3,}$/)){
+        nameError.innerHTML = 'Username must be characters only'
+        return false;
+  
+        }
+        nameError.innerHTML = ''
+        return true;
+    }
+
+    function emailvalidation(){
+
+        var email = document.getElementById('email').value
+        if(!email.match(/^[a-zA-Z0-9-_]+@[a-zA-Z0-9]+\.[a-z]{2,3}$/)){
+            emailError.innerHTML = 'Invalid Email';
+            return false;
+        }
+        emailError.innerHTML = ''
+        return true;
+
+    }
+
+    function numbervalidation(){
+        
+        var phone = document.getElementById('phone').value
+        if(!phone.match(/^\d{10}$/)){
+            phoneError.innerHTML = 'Invalid Number';
+            return false;
+        }
+        phoneError.innerHTML = ''
+        return true;
+
+    }
+
+    function pinvalidation(){
+
+        var pin = document.getElementById('pincode').value
+        if(!pin.match(/^[0-9]+$/)){  
+            pinError.innerHTML = 'Enter proper pincode';
+            return false;
+        }
+        pinError.innerHTML = ''
+        return true;
+    }
+
+    function cityvalidation(){
+
+        var city = document.getElementById('city').value
+        if(city==''){
+            cityError.innerHTML = 'Field should not be empty';
+            return false;
+        }
+        cityError.innerHTML = ''
+        return true;
+    }
+
+    function statevalidation(){
+
+        var state = document.getElementById('state').value
+        if(state==''){
+            stateError.innerHTML = 'Field should not be empty';
+            return false;
+        }
+        stateError.innerHTML = ''
+        return true;
+    }
+
+    function addressvalidation(){
+
+        var address = document.getElementById('address').value
+        if(address==''){
+            addressError.innerHTML = 'Field should not be empty';
+            return false;
+        }
+        addressError.innerHTML = ''
+        return true;
+    }
+
+    function countryvalidation(){
+
+        var country = document.getElementById('country').value
+        if(country==''){
+            countryError.innerHTML = 'Field should not be empty';
+            return false;
+        }
+        countryError.innerHTML = ''
+        return true;
+    }
+
+    function formvalidationn(){
+        console.log('akhilasfmadhih alkhfdisadkls dfaskhfdiasdfklhsadfkl;')
+        if(!namevalidation() || !emailvalidation() || !numbervalidation() || !pinvalidation() || !countryvalidation() ||
+           !statevalidation() || !cityvalidation() || !addressvalidation() ){
+            /*formError.innerHTML = 'Fill all the fields';*/
+            swal('alert','All fields are required')
+            return false;
+        }
+        else{
+            swal('success','Address added succesfully')
+            return true;
+        }
+
+    }
+</script>
+
+
+{% endblock  %}
+
+    

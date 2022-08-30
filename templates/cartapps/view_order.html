@@ -1,0 +1,200 @@
+{% extends 'userside/userbase.html' %}
+
+{% load static %}
+
+
+
+{% block contentblock %}
+    
+
+
+
+
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->  
+
+    <!-- Body main wrapper start -->
+    <div class="wrapper">
+
+        
+        
+      
+
+       
+
+        <!-- Start page content -->
+        <section id="page-content" class="page-wrapper section">
+
+            <!-- SHOP SECTION START -->
+            <div class="shop-section mb-80">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <ul class="nav cart-tab">
+                                <li>
+                                    <a class="active" href="{% url 'cart_view' %}" >
+                                        <span>01</span>
+                                        Shopping cart
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="active" href="{% url 'wish_list' %}" >
+                                        <span>02</span>
+                                        Wishlist
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="active" href="{% url 'itemcheckout' %}" >
+                                        <span>03</span>
+                                        Checkout
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="active" href="{% url 'myorder' %}">
+                                        <span>04</span>
+                                        Order complete
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>  
+                        <div class="col-lg-10">
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <!-- shopping-cart start -->
+                                <div class="tab-pane active" id="shopping-cart">
+                                    <div class="shopping-cart-content">
+                                        
+                                        {% if not order %}
+                                        <div>
+                                            <h1 class="text-center mt-5">No Orders !!</h1>
+                                        </div>
+                                        <div class="d-flex justify-content-center mt-5 ">
+                                            <img src="http://almureed.ae/assets/website/images/empty-cart.gif" class="img-fluid" alt="">
+                                        </div>
+                                        <div class="d-flex justify-content-center my-auto mt-5">
+                                            <a href="{% url 'userindex' %}">
+                                                <button type="submit" class="btn box-shadow submit-btn-1 btn-hover-2  "> View Store </button>
+                                            </a>
+                                        </div>
+
+                                        {% else %}
+                                            
+                                        
+                                            
+                                        <!-- <form action="#"> -->
+                                            <div class="table-content table-responsive mb-50">
+                                                <H2 class="text-center">
+                                                    My Orders
+                                                </H2>
+                                                <table class="text-center">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="product-price">Order ID</th>
+                                                            <th class="product-thumbnail">product</th>
+                                                            <th class="product-price">Total price</th>
+                                                            <th class="product-quantity">Purchased On</th>
+                                                            <th class="product-subtotal">Status</th>
+                                                            <th class="product-remove">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <!-- tr -->
+                                                       
+                                                        
+                                                        {% for item in order %}
+                                                            
+                                                        
+                                                            
+                                                        <tr>
+                                                            <td class="product-price">{{item.id}}</td>
+                                                            <td class="product-thumbnail">
+                                                                
+                                                                <div class="pro-thumbnail-img">
+                                                                    <img src="{{ item.product.productimage.url }}" alt="">
+                                                                </div>
+                                                                <div class="pro-thumbnail-info text-left">
+                                                                    <h6 class="product-title-2">
+                                                                        <a href="#">{{item.product.product_name}}</a>
+                                                                    </h6>
+                                                                    <p>Brand: {{item.product.brand_name}}</p>
+                                                                    <p>Ram: {{item.product.ram}}</p>
+                                                                    <p>Storage: {{item.product.storage}}</p>
+                                                                    <p> Color: {{item.product.color}}</p>
+                                                                </div>
+                                                                    
+                                                                
+                                                                    
+                                                                
+                                                            </td>
+                                                            <td class="product-price">{{item.grandtotal}}</td>
+                                                          <td class="product-quantity">{{item.created_at}}</td>
+                                                          
+                                                          {% if item.status == 'Cancelled' %}
+                                                          <td class="text-danger product-price">{{item.status}}</td>
+                                                          {% elif item.status == 'Delivered' %}
+                                                          <td class="text-success product-price">{{item.status}}</td>
+                                                          {% elif item.status == 'Returned' %}
+                                                          <td class="text-warning product-price">{{item.status}}</td>
+                                                          {% elif item.status == 'Out for shipping' %}
+                                                          <td class="text-info product-price">{{item.status}}</td>
+                                                            {% else %}
+                                                            <td class="product-price">{{item.status}}</td>
+                                                          {% endif %}
+                                                          
+
+                                                            <td class="product-remove">
+                                                                <a href="{% url 'myorderinfo' item.id %}" >View</a>
+                                                                
+                                                            </td>
+                                                        </tr>
+                                                            
+                                                        {% endfor %}
+                                                            
+                                                      
+                                                    </tbody>
+                                                </table>
+                                                
+                                                <!-- {% if total_price in orderitem  %} -->
+                                                <h3 class="pro-price">Total: {{order.total_price }}</h3>
+                                                <!-- {% else %}
+                                                NONE
+                                                    
+                                                {% endif %} -->
+                                                    
+                                                <!-- <h3 class="pro-price">Total: {{orderitem.total_price }}</h3> -->
+                                              
+                                                
+                                                
+                                                
+                                            </div>
+                                            
+                                            {% endif %}
+                                            
+                                        <!-- </form> -->
+                                    </div>
+                                    
+                                        
+                                </div>
+                                <!-- shopping-cart end -->
+                               
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- SHOP SECTION END -->             
+
+        </section>
+        <!-- End page content -->
+
+
+       
+    </div>
+    <!-- Body main wrapper end -->
+
+
+    {% endblock  %}
+
+

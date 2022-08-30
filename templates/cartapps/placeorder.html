@@ -1,0 +1,473 @@
+{% extends 'userside/userbase.html' %}
+
+{% load static %}
+
+
+
+{% block contentblock %}
+    
+
+
+
+
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->  
+
+    <!-- Body main wrapper start -->
+    <!-- <div class="wrapper"> -->
+
+        
+        
+      
+
+       
+
+        <!-- Start page content -->
+        <section id="page-content" class="page-wrapper section">
+
+            <!-- SHOP SECTION START -->
+            <div class="shop-section mb-80">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <ul class="nav cart-tab">
+                                <li>
+                                    <a class="active" href="{% url 'cart_view' %}" >
+                                        <span>01</span>
+                                        Shopping cart
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="active" href="{% url 'wish_list' %}" >
+                                        <span>02</span>
+                                        Wishlist
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="active" href="{% url 'itemcheckout' %}" >
+                                        <span>03</span>
+                                        Checkout
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'myorder' %}">
+                                        <span>04</span>
+                                        Order complete
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                      
+                        <div class="col-lg-10">
+                            
+                            {% for msg in messages %}
+                               <p class="text-danger" >{{msg}}</p> 
+                            {% endfor %}
+                            
+                    
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                            
+                                <!-- checkout start -->
+                                
+                                    <div class="checkout-content box-shadow p-30">
+                                        {% if not cart_items %}
+                        
+                                        <div>
+                                            <p>Continue Shopping</p>
+                                            <a href="{% url 'userindex' %}">
+                                                <button type="submit" class="submit-btn-1 btn-hover-2"> View Store </button>
+                                            </a>
+                                        </div>
+                
+                                        {% else %}
+                                        <form action="{% url 'placeorder' %}" method="POST" >
+                                            {% csrf_token %}
+                                            <div class="row">
+                                                <!-- billing details -->
+                                                <div class="col-md-6">
+                                                    <div class="billing-details pr-10">
+                                                        <h6 class="widget-title border-left mb-20">billing details</h6>
+                                                        
+                                                        
+                                                        <input type="text" name="name" id="name" value="{{address.name}}" placeholder="Your Name Here..." onkeyup="namevalidation()" readonly>
+                                                        <span class="text-danger" id="name-error"></span>
+                                                        <input type="text" name="email" id="email" required="" value="{{address.email}}" placeholder="Email address here..." onkeyup="emailvalidation()" readonly>
+                                                        <span class="text-danger" id="email-error"></span>
+                                                        <input type="text" name="phone" id="phone"  value="{{address.phonenumber}}" placeholder="Phone here..." onkeyup="numbervalidation()" readonly>
+                                                        <span class="text-danger" id="phone-error"></span>
+                                                        <textarea readonly class="custom-textarea"  id="address" value="{{address.address}}" name="address" placeholder="Your address here..." onkeyup="addressvalidation()">{{address.newaddress}}</textarea>
+                                                        <span class="text-danger" id="address-error"></span>
+                                                        <input type="text" name="pincode" id="pincode" required="" value="{{address.pincode}}" placeholder="Pincode" onkeyup="pinvalidation()" readonly>
+                                                        <span class="text-danger" id="pin-error"></span>
+                                                        <input type="text" name="state"  id="state" value="{{address.state}}" placeholder="State" onkeyup="statevalidation()" readonly>
+                                                        <span class="text-danger" id="state-error"></span>
+                                                        <input type="text" name="city"  id="city" value="{{address.city}}" placeholder="City" onkeyup="cityvalidation()" readonly>
+                                                        <span class="text-danger" id="city-error"></span>
+                                                        <input type="text" name="country"  id="country" value="{{address.country}}" placeholder="Country" onkeyup="countryvalidation()" readonly>
+                                                        <span class="text-danger" id="country-error"></span>
+                                                        
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <!-- our order -->
+                                                    <div class="payment-details pl-10 mb-50">
+                                                        <h6 class="widget-title border-left mb-20">our order</h6>
+                                                        {% if cart_items %}
+                                                        <table>
+                                                        
+                                                            {% for cart in cart_items %}
+                                                               
+                                                            {% if cart.quantity > 1 %}
+
+                                                            <tr>
+                                                                <td class="td-title-1">{{cart.product.product_name}} &nbsp; Qty: {{cart.quantity}} </td>
+                                                                {% if cart.product.discount_price %}
+                                                                <td class="td-title-2">RS.{{cart.product.discount_price}}</td>
+                                                                {% else %}
+                                                                    
+                                                                <td class="td-title-2">RS.{{cart.product.price}}</td>
+                                                                {% endif %}
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="td-title-1">Subtotal</td>
+                                                                <td class="td-title-2">RS.{{cart.subtotal}}</td>
+
+                                                            </tr>
+                                                            {% else %}
+                                                            <tr>
+                                                                <td class="td-title-1">{{cart.product.product_name}} &nbsp; Qty: {{cart.quantity}} </td>
+                                                                
+                                                                {% if cart.product.discount_price %}
+                                                                <td class="td-title-2">RS.{{cart.product.discount_price}}</td>
+                                                                {% else %}
+                                                                    
+                                                                <td class="td-title-2">RS.{{cart.product.price}}</td>
+                                                                {% endif %}
+                                                            </tr>
+                                                                
+                                                               {% endif %}
+                                                            
+                                                                
+                                                               {% endfor %}
+                                                               
+                                                            
+                                                            <tr>
+                                                                <td class="td-title-1">Total</td>
+                                                                <td class="td-title-2">Rs.{{total}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="td-title-1">Shipping and Handling</td>
+                                                                <td class="td-title-2">Rs.{{shipping}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="td-title-1">Tax</td>
+                                                                <td class="td-title-2">Rs.{{totaltax}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="order-total">Order Total</td>
+                                                                <td class="order-total-price">Rs.{{grandtotal}}</td>
+                                                            </tr>
+                                                            
+                                                        </table>
+                                                        {% else %}
+                                                        <p>no Cart</p>
+                                                        {% endif %}
+                                                    </div> 
+                                                    <!-- payment-method -->
+                                                    <div class="payment-method">
+                                                        <h6 class="widget-title border-left mb-20">payment method</h6>
+                                                        <div id="accordion">
+                                                            <div class="panel">
+                                                                <input type="hidden" value="COD" name="paymentmode">
+                                                            
+                                                               
+                                                                
+                                                            </div>
+                                                            <div class="panel text-center">
+                                                                <h4 class="payment-title box-shadow submit-btn-1 btn-hover-2"  style="border-radius: 5px;">
+                                                                    <button type="submit" class="cod text-light fw-bolder fs-2" style="border-radius: 5px;" id="success" onclick="return formvalidation()">
+                                                                        COD
+                                                                    </button>
+                                                                </h4><span id="form-error"></span>
+                                                                
+                                                            </div>
+                                                            <div class="panel text-center ">
+                                                                <h4 class="payment-title box-shadow submit-btn-1 btn-hover-2" style="border-radius: 5px;">
+                                                                    <!-- <a data-bs-toggle="collapse" href="#collapseThree" > -->
+                                                                        <button type="button" name="paymentmode" class=" paywithrazorpay text-light fw-bolder fs-2 ">
+                                                                            Razorpay
+                                                                        </button>
+                                                                    
+                                                                    <!-- </a> -->
+                                                                </h4>
+                                                               
+                                                            </div>
+
+                                                            <div class="panel">
+                                                                
+                                                                        <div id="paypal-button-container"></div>
+                                                                    
+                                                                    
+                                                               
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                   
+                                                </div>
+                                            </div>
+                                        </form>
+                                        {% endif %}
+                                        
+                                    </div>
+                                
+                                <!-- checkout end -->
+                                
+                                
+                                
+                            </div>
+                        </div>
+                       
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- SHOP SECTION END -->             
+
+        </section>
+        <!-- End page content -->
+
+
+       
+    <!-- </div> -->
+    <!-- Body main wrapper end -->
+
+
+    {% endblock  %}
+
+    
+    {% block scripts %}
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AXVF0X4uk5pATl0KAGXtLLPZZNvJm-LOjXhmEn91b3O4UdCbNmzLM7ZsJlryXNjrKsfKxRI9u094VdEs&currency=USD"></script>
+
+    
+
+    <script>
+        paypal.Buttons({
+
+            onClick: function(data,actions) {
+                var customername = $("[name = 'name']").val();
+                var phone = $("[name = 'phone']").val();
+                var email = $("[name = 'email']").val();
+                var address = $("[name = 'address']").val();
+                var pincode = $("[name = 'pincode']").val();
+                var state = $("[name = 'state']").val();
+                var city = $("[name = 'city']").val();
+                var country = $("[name = 'country']").val(); 
+                var token = $("[name='csrfmiddlewaretoken']").val();
+                
+                
+
+                
+                    return true;
+
+            },
+          // Sets up the transaction when a payment button is clicked
+          createOrder: (data, actions) => {
+            return actions.order.create({
+              purchase_units: [{
+                amount: {
+                  value: '0.01' // Can also reference a variable or function
+                }
+              }]
+            });
+          },
+          // Finalize the transaction after payer approval
+          onApprove: function(data, actions) {
+            return actions.order.capture().then(function(orderData) {
+              // Successful capture! For dev/demo purposes:
+
+              console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+              alert(orderData.id);
+              //const transaction = orderData.purchase_units[0].payments.captures[0];
+             // alert(`Transaction ${transaction.status}: ${transaction.id}\n\nSee console for all available details`);
+
+                var customername = $("[name = 'name']").val();
+                var phone = $("[name = 'phone']").val();
+                var email = $("[name = 'email']").val();
+                var address = $("[name = 'address']").val();
+                var pincode = $("[name = 'pincode']").val();
+                var state = $("[name = 'state']").val();
+                var city = $("[name = 'city']").val();
+                var country = $("[name = 'country']").val();
+                var token = $("[name='csrfmiddlewaretoken']").val();
+                data = {
+
+                    "name": customername,
+                    "phone": phone ,
+                    "email": email ,
+                    "address": address,
+                    "pincode": pincode,
+                    "state": state, 
+                    "city": city ,
+                    "country": country,
+                    "paymentmode": "paid by paypal",
+                    "payment_id" : orderData.id,
+                    csrfmiddlewaretoken : token
+                }
+                console.log('kdjsfiusadbfjasdbfsajbdfuiasd fisd vu');
+                $.ajax({
+                    
+                    method: "POST",
+                    url: "/newcart/place-order",
+                    data: data,
+                    
+                    success: function (responsec){
+                        swal("Congratulations!",responsec.status, "success").then((value) => {
+                            window.location.href = '/newcart/invoice'
+                        });
+
+                    }
+                });
+
+              // When ready to go live, remove the alert and show a success message within this page. For example:
+              // const element = document.getElementById('paypal-button-container');
+              // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+              // Or go to another URL:  actions.redirect('thank_you.html');
+            });
+          }
+        }).render('#paypal-button-container');
+    </script>
+
+   
+
+    <script>
+
+        
+
+        var nameError = document.getElementById('name-error')
+        var emailError = document.getElementById('email-error')
+        var phoneError = document.getElementById('phone-error')
+        var pinError = document.getElementById('pin-error')
+        var cityError = document.getElementById('city-error')
+        var addressError = document.getElementById('address-error')
+        var stateError = document.getElementById('state-error')
+        var countryError = document.getElementById('country-error')
+        var formError = document.getElementById('form-error')
+
+        function namevalidation(){
+
+            var name = document.getElementById('name').value
+            if(!name.match(/^[A-Za-z\s]{3,}$/)){
+            nameError.innerHTML = 'Username must be characters only'
+            return false;
+      
+            }
+            nameError.innerHTML = ''
+            return true;
+        }
+
+        function emailvalidation(){
+
+            var email = document.getElementById('email').value
+            if(!email.match(/^[a-zA-Z0-9-_]+@[a-zA-Z0-9]+\.[a-z]{2,3}$/)){
+                emailError.innerHTML = 'Invalid Email';
+                return false;
+            }
+            emailError.innerHTML = ''
+            return true;
+
+        }
+
+        function numbervalidation(){
+            
+            var phone = document.getElementById('phone').value
+            if(!phone.match(/^\d{10}$/)){
+                phoneError.innerHTML = 'Invalid Number';
+                return false;
+            }
+            phoneError.innerHTML = ''
+            return true;
+
+        }
+
+        function pinvalidation(){
+
+            var pin = document.getElementById('pincode').value
+            if(!pin.match(/^[0-9]+$/)){
+                pinError.innerHTML = 'Enter proper pincode';
+                return false;
+            }
+            pinError.innerHTML = ''
+            return true;
+        }
+
+        function cityvalidation(){
+
+            var city = document.getElementById('city').value
+            if(city==''){
+                cityError.innerHTML = 'Field should not be empty';
+                return false;
+            }
+            cityError.innerHTML = ''
+            return true;
+        }
+
+        function statevalidation(){
+
+            var state = document.getElementById('state').value
+            if(state==''){
+                stateError.innerHTML = 'Field should not be empty';
+                return false;
+            }
+            stateError.innerHTML = ''
+            return true;
+        }
+
+        function addressvalidation(){
+
+            var address = document.getElementById('address').value
+            if(address==''){
+                addressError.innerHTML = 'Field should not be empty';
+                return false;
+            }
+            addressError.innerHTML = ''
+            return true;
+        }
+
+        function countryvalidation(){
+
+            var country = document.getElementById('country').value
+            if(country==''){
+                countryError.innerHTML = 'Field should not be empty';
+                return false;
+            }
+            countryError.innerHTML = ''
+            return true;
+        }
+
+        function formvalidation(){
+            console.log('wkldfklwdnfklwahdflnwdsfklsafdbaklwdfbwdlb;lk')
+            if(!namevalidation() || !emailvalidation() || !numbervalidation() || !pinvalidation() || !countryvalidation() ||
+               !statevalidation() || !cityvalidation() || !addressvalidation() ){
+                /*formError.innerHTML = 'Fill all the fields';*/
+                swal('alert','All fields are required')
+                return false;
+            }
+            /*if(namevalidation() || emailvalidation() || numbervalidation() || pinvalidation() || countryvalidation() ||
+               statevalidation() || cityvalidation() || addressvalidation() ){
+                
+                swal('success','aksdkalsh')
+                return true;
+            }*/
+
+        }
+    </script>
+
+    
+    {% endblock scripts %}

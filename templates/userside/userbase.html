@@ -1,0 +1,630 @@
+
+
+{% load static %}
+
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Snap Buy</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon -->
+    <!-- <link rel="shortcut icon" type="image/x-icon" href="{% static '/img/icon/favicon.png' %}"> -->
+
+    <!-- All CSS Files -->
+    <!-- Bootstrap fremwork main css -->
+    <link rel="stylesheet" href="{% static '/css/bootstrap.min.css' %}">
+    <!-- Nivo-slider css -->
+    <link rel="stylesheet" href="{% static '/lib/css/nivo-slider.css' %}">
+    <!-- This core.css file contents all plugings css file. -->
+    <link rel="stylesheet" href="{% static '/css/core.css' %}">
+    <!-- Theme shortcodes/elements style -->
+    <link rel="stylesheet" href="{%static '/css/shortcode/shortcodes.css' %}">
+    <!-- Theme main style -->
+    <link rel="stylesheet" href="{% static '/style.css' %}">
+    <!-- Responsive css -->
+    <link rel="stylesheet" href="{% static '/css/responsive.css' %}">
+    <!-- User style -->
+    <link rel="stylesheet" href="{% static '/css/custom.css' %}">
+    
+    <!-- Style customizer (Remove these two lines please) -->
+    <link rel="stylesheet" href="{% static '/css/style-customizer.css' %}">
+    <link href="#" data-style="styles" rel="stylesheet">
+
+    <!-- Modernizr JS -->
+    <script src="{% static '/js/vendor/modernizr-3.11.2.min.js' %}"></script>
+
+    <!-- HTMX SCRIPT -->
+    <script src="https://unpkg.com/htmx.org@1.8.0" integrity="sha384-cZuAZ+ZbwkNRnrKi05G/fjBX+azI9DNOkNYysZ0I/X5ZFgsmMiBXgDZof30F5ofc" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->  
+
+    <!-- Body main wrapper start -->
+    <div class="wrapper">
+
+        <!-- START HEADER AREA -->
+        <header class="header-area header-wrapper">
+            <!-- header-top-bar -->
+            <div class="header-top-bar plr-185">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 d-none d-md-block">
+                            <div class="call-us">
+                                <p class="mb-0 roboto">0123456789</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="top-link clearfix">
+                                <ul class="link f-right">
+                                    <li>
+                                        {% if user.is_authenticated %}
+                                        <a href="{% url 'profile' %}">
+                                            <i class="zmdi zmdi-account"></i>
+                                            {{user.username}}
+                                        </a>
+                                        {% endif %}
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'wish_list' %}">
+                                            <i class="zmdi zmdi-favorite"></i>
+                                            
+                                            
+                                        </a>
+                                    </li>
+                                    <li>
+                                        
+                                        {% if user.is_authenticated %}
+                                        {{user.username}}
+                                        <a href="{% url 'user_logout' %}" onclick="return confirm('Are you sure to Lgout ?')">
+                                            <i class="zmdi zmdi-lock"></i>
+                                            
+                                            Logout
+                                        </a>
+                                        {% else %}
+                                        <a href="{% url 'userlog' %}">
+                                            <i class="zmdi zmdi-lock"></i>
+                                            Login
+                                        </a>
+                                            
+                                        {% endif %}
+                                            
+                                        
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                    
+            </div>
+
+
+            <!-- header-middle-area -->
+            <div id="sticky-header" class="header-middle-area plr-185">
+                <div class="container-fluid">
+                    <div class="full-width-mega-dropdown">
+                        <div class="row">
+                            <!-- logo -->
+                            <div class="col-lg-2 col-md-4">
+                                <div class="logo">
+                                    <a href="{% url 'userindex' %}">
+                                        <!-- <img src="{% static '/img/logo/logo.png' %}" alt="main logo"> -->
+                                        <h3>Snap Buy</h3>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- primary-menu -->
+                            <div class="col-lg-8 d-none d-lg-block">
+                                <nav id="primary-menu">
+                                    <ul class="main-menu text-center">
+
+                                            <!-- HOME PAGE -->
+
+                                        <li><a href="{% url 'userindex' %}">Home</a>
+                                           
+                                        </li>
+
+                                    <!-- CATEGORY LIST PAGE -->
+                                    
+                                    {% for cat in cat_list %}
+                                    <li class="mega-parent"><a href="{% url 'products_list' cat.id %}">{{cat.title}}</a>
+                                    </li>
+                                    {% endfor %}
+                                       
+
+                                            <!-- <div class="mega-menu-area mega-menu-area-2 clearfix">
+                                                <div class="mega-menu-link mega-menu-link-2  f-left">
+                                                    <ul class="single-mega-item">
+                                                        <li class="menu-title">page list</li>
+                                                        <li>
+                                                            <a href="shop.html">Shop</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="shop-left-sidebar.html">Shop Left Sidebar</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="shop-right-sidebar.html">Shop Right Sidebar</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="shop-list.html">Shop List</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="shop-list-right-sidebar.html">Shop List Right Sidebar</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="single-product.html">Single Product</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="single-product-left-sidebar.html">Single Product Left Sidebar</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="single-product-no-sidebar.html">Single Product No Sidebar</a>
+                                                        </li>
+                                                    </ul>
+                                                    <ul class="single-mega-item">
+                                                        <li class="menu-title">page list</li>
+                                                        <li>
+                                                            <a href="cart.html">Shopping Cart</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="wishlist.html">Wishlist</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="checkout.html">Checkout</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="order.html">Order</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="login.html">Login</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="my-account.html">My Account</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="about.html">About us</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="404.html">404</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div> -->
+                                        </li>
+
+
+                                        <!-- <li><a href="blog.html">Blog</a>
+                                            <ul class="dropdwn">
+                                                <li><a href="blog-left-sidebar.html">Dropdown Repeat</a>
+													<ul class="dropdwn-repeat">
+														<li>
+															<a href="blog.html">Blog</a>
+														</li>
+														<li>
+															<a href="blog-left-sidebar.html">Blog Left Sidebar</a>
+														</li>
+														<li>
+															<a href="blog-right-sidebar.html">Blog Right Sidebar</a>
+														</li>
+														<li>
+															<a href="blog-2.html">Blog style 2</a>
+														</li>
+														<li>
+															<a href="blog-2-left-sidebar.html">Blog 2 Left Sidebar</a>
+														</li>
+														<li>
+															<a href="blog-2-right-sidebar.html">Blog 2 Right Sidebar</a>
+														</li>
+														<li>
+															<a href="single-blog.html">Blog Details</a>
+														</li>
+													</ul>
+                                                </li>
+                                                <li>
+                                                    <a href="blog.html">Blog</a>
+                                                </li>
+												<li>
+													<a href="blog-left-sidebar.html">Blog Left Sidebar</a>
+                                                </li>
+                                                <li>
+                                                    <a href="blog-right-sidebar.html">Blog Right Sidebar</a>
+                                                </li>
+                                                <li>
+                                                    <a href="blog-2.html">Blog style 2</a>
+                                                </li>
+                                                <li>
+                                                    <a href="blog-2-left-sidebar.html">Blog 2 Left Sidebar</a>
+                                                </li>
+                                                <li>
+                                                    <a href="blog-2-right-sidebar.html">Blog 2 Right Sidebar</a>
+                                                </li>
+                                                <li>
+                                                    <a href="single-blog.html">Blog Details</a>
+                                                </li>
+                                            </ul>
+                                        </li> -->
+
+
+
+                                        <!-- <li>
+                                            <a href="about.html">About us</a>
+                                        </li> -->
+
+                                        <!-- CONTACT PAGE -->
+
+                                        <li>
+                                            
+                                            <a href="#">Contact</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+
+                            <!-- header-search & total-cart -->
+                            <div class="col-lg-2 col-md-8">
+                                <div class="search-top-cart  f-right">
+                                    <!-- header-search -->
+                                    <div class="header-search f-left">
+                                        <div class="header-search-inner">
+                                           <button class="search-toggle">
+                                            <i class="zmdi zmdi-search"></i>
+                                           </button>
+                                            <form action="{% url 'searchproduct' %}" role="search" method="GET">
+                                                {% csrf_token %}
+                                                <div class="top-search-box">
+                                                    <input type="text" name="search" placeholder="Search here your product...">
+                                                    <a href="{% url 'searchproduct' %}">
+                                                        <button type="submit">
+                                                            <i class="zmdi zmdi-search"></i>
+                                                        </button>
+                                                    </a>
+                                                </div>
+                                            </form> 
+                                        </div>
+                                    </div>
+                                    <!-- total-cart -->
+                                    <div class="total-cart f-left">
+                                        <div class="total-cart-in">
+                                            <div class="cart-toggler">
+                                                <a href="{% url 'cart_view' %}">
+                                                    <span class="cart-quantity">{{count}}</span><br>
+                                                    <span class="cart-icon">
+                                                        <i class="zmdi zmdi-shopping-cart-plus"></i>
+                                                    </span>
+                                                </a>                            
+                                            </div>
+                                            <ul>
+                                                <li>
+                                                    <div class="top-cart-inner your-cart">
+                                                        <h5 class="text-capitalize">Your Cart</h5>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="total-cart-pro">
+                                                        <!-- single-cart -->
+                                                            
+                                                        {% for cart in cart_product %}
+                                                         
+                                                        <div class="single-cart clearfix">
+                                                            <div class="cart-img f-left">
+                                                                <!-- <a href="#">
+                                                                    <img src="{{ cart.product.productimage.url }}" alt="Cart Product" />
+                                                                </a> -->
+                                                                <div class="del-icon">
+                                                                    <a href="#">
+                                                                        <i class="zmdi zmdi-close"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="cart-info f-left">
+                                                                <h6 class="text-capitalize">
+                                                                    <a href="{% url 'product_detial' cart.product.id %}">{{cart.product.product_name}}</a>
+                                                                </h6>
+                                                                <p>
+                                                                    <span>Brand <strong>:</strong></span> {{cart.product.brand_name}}
+                                                                </p>
+                                                                <p>
+                                                                    Category <strong>:</strong>{{cart.product.category_name}} 
+                                                                </p>
+                                                                <p>
+                                                                    <span>Color <strong>:</strong></span>{{cart.product.color}} 
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        {% endfor %}
+                                                        
+                                                       
+                                                    </div>
+                                                </li>
+                                               
+                                                <li>
+                                                    <div class="top-cart-inner view-cart">
+                                                        <h4 class="text-uppercase">
+                                                            
+                                                            {% if not cart_product %}
+                                                                <p>No Cart Item</p>
+                                                            {% else %}
+                                                                
+                                                            <a href="{% url 'cart_view' %}">View cart</a>
+                                                            {% endif %}
+                                                        </h4>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="top-cart-inner check-out">
+                                                        <h4 class="text-uppercase">
+                                                            {% if cart_product %}
+                                                            <a href="{% url 'itemcheckout' %}">Check out</a>
+                                                            {% endif %}
+                                                        </h4>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- END HEADER AREA -->
+   
+   <!-- {% block content %}
+    
+   {% endblock  %} -->
+           
+
+
+
+        <!-- START MOBILE MENU AREA -->
+        <div class="mobile-menu-area d-block d-lg-none section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="mobile-menu">
+                            <nav id="dropdown">
+                                <ul>
+                                    <li><a href="{% url 'userindex' %}">Home</a>
+                                     
+                                    </li>
+
+                                    {% for cat in cat_list %}
+                                    <li class="mega-parent"><a href="{% url 'products_list' cat.id %}">{{cat.title}}</a>
+                                    </li>
+                                    {% endfor %}
+                                        <!-- <ul>
+                                            <li>
+                                                <a href="blog.html">Blog</a>
+                                            </li>
+                                            <li>
+                                                <a href="blog-left-sidebar.html">Blog Left Sidebar</a>
+                                            </li>
+                                            <li>
+                                                <a href="blog-right-sidebar.html">Blog Right Sidebar</a>
+                                            </li>
+                                            <li>
+                                                <a href="blog-2.html">Blog style 2</a>
+                                            </li>
+                                            <li>
+                                                <a href="blog-2-left-sidebar.html">Blog 2 Left Sidebar</a>
+                                            </li>
+                                            <li>
+                                                <a href="blog-2-right-sidebar.html">Blog 2 Right Sidebar</a>
+                                            </li>
+                                            <li>
+                                                <a href="single-blog.html">Blog Details</a>
+                                            </li>
+                                        </ul> -->
+                                    </li>
+
+                                    <!-- <li>
+                                        <a href="about.html">About Us</a>
+                                    </li> -->
+
+                                    <li>
+                                        <a href="#">Contact</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p></p>
+        <!-- END MOBILE MENU AREA -->
+
+    {% block contentblock %}
+    
+   {% endblock  %}
+
+
+
+
+
+          <!-- START FOOTER AREA -->
+          <footer id="footer" class="footer-area section">
+            <div class="footer-top">
+                <div class="container-fluid">
+                    <div class="plr-185">
+                        <div class="footer-top-inner gray-bg">
+                            <div class="row">
+                                <div class="col-xl-4 col-lg-5 col-md-5">
+                                    <div class="single-footer footer-about">
+                                        <div class="footer-logo">
+                                            <img src="img/logo/logo.png" alt="">
+                                        </div>
+                                        <div class="footer-brief">
+                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the subas industry's standard dummy text ever since the 1500s,</p>
+                                            <p>When an unknown printer took a galley of type and If you are going to use a passage of Lorem Ipsum scrambled it to make.</p>
+                                        </div>
+                                        <ul class="footer-social">
+                                            <li>
+                                                <a class="facebook" href="" title="Facebook"><i class="zmdi zmdi-facebook"></i></a>
+                                            </li>
+                                            <li>
+                                                <a class="google-plus" href="" title="Google Plus"><i class="zmdi zmdi-google-plus"></i></a>
+                                            </li>
+                                            <li>
+                                                <a class="twitter" href="" title="Twitter"><i class="zmdi zmdi-twitter"></i></a>
+                                            </li>
+                                            <li>
+                                                <a class="rss" href="" title="RSS"><i class="zmdi zmdi-rss"></i></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-xl-2 d-block d-xl-block d-lg-none d-md-none">
+                                    <div class="single-footer">
+                                        <h4 class="footer-title border-left">Shipping</h4>
+                                        <ul class="footer-menu">
+                                            <li>
+                                                <a href="#"><i class="zmdi zmdi-circle"></i><span>New Products</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="#"><i class="zmdi zmdi-circle"></i><span>Discount Products</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="#"><i class="zmdi zmdi-circle"></i><span>Best Sell Products</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="#"><i class="zmdi zmdi-circle"></i><span>Popular Products</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="#"><i class="zmdi zmdi-circle"></i><span>Manufactirers</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="#"><i class="zmdi zmdi-circle"></i><span>Suppliers</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="#"><i class="zmdi zmdi-circle"></i><span>Special Products</span></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-xl-2 col-lg-3 col-md-3">
+                                    <div class="single-footer">
+                                        <h4 class="footer-title border-left">my account</h4>
+                                        <ul class="footer-menu">
+                                            <li>
+                                                <a href="{% url 'profile' %}"><i class="zmdi zmdi-circle"></i><span>My Account</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'wish_list' %}"><i class="zmdi zmdi-circle"></i><span>My Wishlist</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'cart_view' %}"><i class="zmdi zmdi-circle"></i><span>My Cart</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'userlog' %}"><i class="zmdi zmdi-circle"></i><span>Sign In</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'register' %}"><i class="zmdi zmdi-circle"></i><span>Registration</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'itemcheckout' %}"><i class="zmdi zmdi-circle"></i><span>Check out</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'myorder' %}"><i class="zmdi zmdi-circle"></i><span>Oder Complete</span></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-4 col-md-4">
+                                    <div class="single-footer">
+                                        <h4 class="footer-title border-left">Get in touch</h4>
+                                        <div class="footer-message">
+                                            <form action="#">
+                                                <input type="text" name="name" placeholder="Your name here...">
+                                                <input type="text" name="email" placeholder="Your email here...">
+                                                <textarea class="height-80" name="message" placeholder="Your messege here..."></textarea>
+                                                <button class="submit-btn-1 mt-20 btn-hover-1" type="submit">submit message</button> 
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom black-bg">
+                <div class="container-fluid">
+                    <div class="plr-185">
+                        <div class="copyright">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="copyright-text">
+                                        <p class="copy-text"> © 2021 <strong>Subas</strong> Made With <i class="zmdi zmdi-favorite" style="color: red;" aria-hidden="true"></i> By <a class="company-name" href="https://themeforest.net/user/codecarnival/portfolio">
+                                <strong> CodeCarnival</strong></a>.</p>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul class="footer-payment text-right">
+                                        <li>
+                                            <a href="#"><img src="img/payment/1.jpg" alt=""></a>
+                                        </li>
+                                        <li>
+                                            <a href="#"><img src="img/payment/2.jpg" alt=""></a>
+                                        </li>
+                                        <li>
+                                            <a href="#"><img src="img/payment/3.jpg" alt=""></a>
+                                        </li>
+                                        <li>
+                                            <a href="#"><img src="img/payment/4.jpg" alt=""></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- END FOOTER AREA -->
+
+
+
+     
+    <!-- Placed JS at the end of the document so the pages load faster -->
+
+    <!-- jquery latest version -->
+    <script src="{% static '/js/vendor/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static '/js/vendaor/jquery-migrate-3.3.2.min.js' %}"></script>
+    <!-- Bootstrap framework js -->
+    <script src="{% static '/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- jquery.nivo.slider js -->
+    <script src="{% static '/lib/js/jquery.nivo.slider.js' %}"></script>
+    <!-- All js plugins included in this file. -->
+    <script src="{% static '/js/plugins.js' %}"></script>
+    <!-- Main js file that contents all jQuery plugins activation. -->
+    <script src="{% static '/js/main.js' %}"></script> 
+    <script>
+        document.body.addEventListener('htmx:configRequest', function(evt) {
+            evt.detail.parameters['auth_token'] = getAuthToken(); // add a new parameter into the request
+            evt.detail.headers['Authentication-Token'] = getAuthToken(); // add a new header into the request
+        });
+    </script>  
+
+        
+        {% block scripts %}
+            
+        {% endblock scripts %}
+        
+        <script src="{% static '/js/checkout.js' %}"></script>    
+            
+</body>    
+</html>

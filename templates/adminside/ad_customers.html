@@ -1,0 +1,390 @@
+
+{% extends 'adminside/index.html' %}
+
+
+{% load static %}
+
+
+        <!--  END SIDEBAR  -->
+        
+        {% block content-block %}
+            
+        
+            
+
+        <!--  BEGIN CONTENT PART  -->
+        <div id="content" class="main-content">
+            <div class="container">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h3>View Customers</h3>
+                        <div class="crumbs">
+                            <ul id="breadcrumbs" class="breadcrumb">
+                                <li><a href="index.html"><i class="flaticon-home-fill"></i></a></li>
+                                <li><a href="#">eCommerce</a></li>
+                                <li class="active"><a href="#">View Customers</a> </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                
+                
+                    {% for usermsg in messages %}
+                    <p class="text-success">{{usermsg}}</p>
+                    {% endfor %} 
+                    
+                <!-- {% for usermsg in messages %}
+                
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong></strong>{{usermsg}}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %} --> 
+                
+                    
+                    
+                
+                <div class="row" id="cancel-row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+                        <div class="statbox widget box box-shadow">
+                            
+                            
+                            <div class="widget-header">
+                                <div class="row">
+                                    <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                        <h4>Customer Information Details </h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-content widget-content-area">
+                                <div class="table-responsive mb-4">
+                                    <table id="ecommerce-product-customers" class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="checkbox-column"> Record No. </th>
+                                                <!-- <th>Customers</th> -->
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Contact</th>
+                                                <th class="">Status</th>
+                                                <!-- <th class="">Action</th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            
+                                            {% for user in userlist %}
+                                                
+                                            
+                                                
+                                            <tr>
+                                                <td class="checkbox-column"> 1</td>
+                                                <!-- <td class="customer-name-1">{{user.username}}</td> -->
+                                                <!-- <td class="">
+                                                    <a class="product-list-img" href="javascript: void(0);">
+                                                        <img src="assets/img/90x90.jpg" alt="product">
+                                                    </a>
+                                                </td> -->
+                                                <td class="customer-name-1">{{user.username}}</td>
+                                                <td>{{user.email}}</td>
+                                                <td>{{user.phone_number}}</td>
+                                                <td>
+                                                    <div class="d-flex">
+                                                        <div class=" align-self-center d-m-success  mr-1 "></div>
+                                                        
+                                                        
+                                                        {% if user.is_active %}
+                                                        <a href="{% url 'blockuser' user.id %}">
+                                                        
+                                                        <button onclick="return checkit()" class="btn btn-danger">
+                                                            <span class="label label-success">Block</span>
+                                                        </button></a>
+                                                        
+                                                            
+                                                        {% else %}
+                                                            
+                                                        <a href="{% url 'blockuser' user.id %}">
+                                                        <button class="btn btn-primary" onclick="return confirm('Are you sure to unblock this customer ?')">
+                                                            <span class="label label-success">Unblock</span>
+                                                        </button>
+                                                        </a>
+
+                                                        {% endif %}
+                                                        
+                                                    </div>
+                                                </td>
+                                                <!-- onclick="return confirm('Are you sure to unblock this customer ?')" -->
+                                                <!-- <td class="">
+                                                    <ul class="table-controls">
+                                                        <li>
+                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                                <i class="flaticon-edit"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                                <i class="flaticon-delete-5"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </td> -->
+
+                                            </tr>
+
+                                            {% endfor %}
+
+
+                                            <!-- <tr>
+                                                <td class="checkbox-column"> 2 </td>
+                                                <td class="">
+                                                    <a class="product-list-img" href="javascript: void(0);">
+                                                        <img src="assets/img/90x90.jpg" alt="product">
+                                                    </a>
+                                                </td>
+                                                <td class="customer-name-2">Andy King</td>
+                                                <td>andyking@user.com</td>
+                                                <td>555-555-6666</td>
+                                                <td>
+                                                    <div class="d-flex">
+                                                        <div class=" align-self-center d-m-warning  mr-1 data-marker"></div>
+                                                        <span class="label label-warning">Block</span>
+                                                    </div>
+                                                </td> -->
+
+                                                <!-- <td class="">
+                                                    <ul class="table-controls">
+                                                        <li>
+                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                                <i class="flaticon-edit"></i>                                             
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                                <i class="flaticon-delete-5"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </td> -->
+
+                                            <!-- </tr>
+                                            <tr>
+                                                <td class="checkbox-column"> 3 </td>
+                                                <td class="">
+                                                    <a class="product-list-img" href="javascript: void(0);">
+                                                        <img src="assets/img/90x90.jpg" alt="product">
+                                                    </a>
+                                                </td>
+                                                <td class="customer-name-3">Lisa Doe</td>
+                                                <td>lisadoe@superadmin.com</td>
+                                                <td>777-555-5555</td>
+                                                <td>
+                                                    <div class="d-flex">
+                                                        <div class=" align-self-center d-m-danger  mr-1 data-marker"></div>
+                                                        <span class="label label-danger">Block</span>
+                                                    </div>
+                                                </td> -->
+
+                                                <!-- <td class="">
+                                                    <ul class="table-controls">
+                                                        <li>
+                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                                <i class="flaticon-edit"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                                <i class="flaticon-delete-5"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </td> -->
+
+                                            <!-- </tr>
+                                            <tr>
+                                                <td class="checkbox-column"> 4 </td>
+                                                <td class="">
+                                                    <a class="product-list-img" href="javascript: void(0);">
+                                                        <img src="assets/img/90x90.jpg" alt="product">
+                                                    </a>
+                                                </td>
+                                                <td class="customer-name-4">Vincent Carpenter</td>
+                                                <td>vincentC@admin.com</td>
+                                                <td>555-666-5555</td>
+                                                <td>
+                                                    <div class="d-flex">
+                                                        <div class=" align-self-center d-m-success  mr-1 data-marker"></div>
+                                                        <span class="label label-success">Block</span>
+                                                    </div>
+                                                </td> -->
+
+                                                <!-- <td class="">
+                                                    <ul class="table-controls">
+                                                        <li>
+                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                                <i class="flaticon-edit"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                                <i class="flaticon-delete-5"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </td> -->
+
+                                            <!-- </tr>
+                                            <tr>
+                                                <td class="checkbox-column"> 5 </td>
+                                                <td class="">
+                                                    <a class="product-list-img" href="javascript: void(0);">
+                                                        <img src="assets/img/90x90.jpg" alt="product">
+                                                    </a>
+                                                </td>
+                                                <td class="customer-name-5">Shaun Park</td>
+                                                <td>shaunpark@yahoo.com</td>
+                                                <td>444-444-4444</td>
+                                                <td>
+                                                    <div class="d-flex">
+                                                        <div class=" align-self-center d-m-warning  mr-1 data-marker"></div>
+                                                        <span class="label label-warning">Block</span>
+                                                    </div>
+                                                </td> -->
+
+                                                <!-- <td class="">
+                                                    <ul class="table-controls">
+                                                        <li>
+                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                                <i class="flaticon-edit"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                                <i class="flaticon-delete-5"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </td> -->
+
+                                            <!-- </tr>
+                                            <tr>
+                                                <td class="checkbox-column"> 6 </td>
+                                                <td class="">
+                                                    <a class="product-list-img" href="javascript: void(0);">
+                                                        <img src="assets/img/90x90.jpg" alt="product">
+                                                    </a>
+                                                </td>
+                                                <td class="customer-name-6">Mary McDonald</td>
+                                                <td>mary@gmail.com</td>
+                                                <td>111-111-1111</td>
+                                                <td>
+                                                    <div class="d-flex">
+                                                        <div class=" align-self-center d-m-danger  mr-1 data-marker"></div>
+                                                        <span class="label label-danger">Block</span>
+                                                    </div>
+                                                </td> -->
+
+                                                <!-- <td class="">
+                                                    <ul class="table-controls">
+                                                        <li>
+                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                                <i class="flaticon-edit"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                                <i class="flaticon-delete-5"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </td> -->
+
+                                            <!-- </tr>
+                                            <tr>
+                                                <td class="checkbox-column"> 7 </td>
+                                                <td class="">
+                                                    <a class="product-list-img" href="javascript: void(0);">
+                                                        <img src="assets/img/90x90.jpg" alt="product">
+                                                    </a>
+                                                </td>
+                                                <td class="customer-name-7">Nia Hillyer</td>
+                                                <td>niahillyer@customer.com</td>
+                                                <td>111-666-1111</td>
+                                                <td>
+                                                    <div class="d-flex">
+                                                        <div class=" align-self-center d-m-success  mr-1 data-marker"></div>
+                                                        <span class="label label-success">Block</span>
+                                                    </div>
+                                                </td> -->
+
+                                                <!-- <td class="">
+                                                    <ul class="table-controls">
+                                                        <li>
+                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                                <i class="flaticon-edit"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                                <i class="flaticon-delete-5"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </td> -->
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                <!-- </div><button type="button" class="btn btn-primary">Save</button> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <!--  END CONTENT PART  -->
+    </div>
+    <!-- END MAIN CONTAINER -->
+
+    
+    
+
+
+
+    {% endblock  %}
+
+    {% block script-block %}
+    <!-- SWEET Alert -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- SWEET Alert -->
+
+    <script>
+       
+    </script>
+
+    <script>
+
+       /*window.addEventListener('load', function checkit(){
+        console.log('asasasasasasasaasdfnfgaifgbno')
+            swal("Are you sure you want to do this?", {
+                buttons: ["Oh noez!", "Aww yiss!"],
+              });
+
+        });*/
+
+        function checkit(){
+            console.log('asasasasasasasaasdfnfgaifgbno')
+            swal("Are you sure you want to do this?", {
+                buttons: ["Oh noez!", "Aww yiss!"],
+              });
+              
+
+        }
+    </script>
+        
+    {% endblock  %}
+
+
+
+   

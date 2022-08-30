@@ -1,0 +1,121 @@
+{% extends 'cat_adminside/cat_adminbase.html' %}
+
+
+{% load static %}
+
+
+
+
+{% block blockcontent %}
+    
+
+    
+        <!--  END SIDEBAR  -->
+
+        <!--  BEGIN CONTENT PART  -->
+        <div id="content" class="main-content">
+            <div class="container">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h3>Offers</h3>
+                        <div class="crumbs">
+                            <ul id="breadcrumbs" class="breadcrumb">
+                                <li><a href="index.html"><i class="flaticon-home-fill"></i></a></li>
+                                <li><a href="#">eCommerce</a></li>
+                                <li class="active"><a href="#">Offer List</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row margin-bottom-120">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="statbox widget box box-shadow">
+                            <div class="widget-header">
+                                <div class="row">
+                                    <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                        <h4>Offer List </h4>
+                                        
+                                        {% for msg in messages %}
+                                            <p class="text-danger">{{msg}}</p>
+                                        {% endfor %}
+                                            
+                                        <a href="{% url 'coupon_add' %}">
+                                            <button type="button" class="btn btn-primary mt-2 ms-5 ">Add Offer</button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-content widget-content-area">
+                                <div class="table-responsive mb-4">
+                                    <table id="ecommerce-product-list" class="table  table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                
+                                                <th>User</th>
+                                                
+                                                <th> Coupon Code</th>
+                                                <th>Discount Percentage</th>
+                                                
+                                                
+                                                <th class="align-center">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            
+                                            {% for c in usedcoupon %}
+                                                  
+                                            <tr>
+                                                <td>{{forloop.counter}}</td>
+                                                
+                                                <td>{{ c.user }}</td>
+                                                
+                                                <td>{{c.coupon}}</td>
+                                                <td>
+                                                    {{c.coupon.discount_percentage}}%
+                                                    
+                                                </td>
+                                                
+                                                <!-- <td>ITEM-0001</td> -->
+                                                <!-- <td>$120.00</td> -->
+                                                
+                                               
+                                                
+                                                <td class="align-center">
+                                                    <ul class="table-controls">
+                                                       
+                                                        <li>
+                                                            
+                                                            <a href="{% url 'delete_used_coupon' c.id %}"><button type="button" class="btn btn-primary" onclick="return confirm('Do you want delete ?')">Delete</button></a>
+                                                            
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                           
+                                          
+                                           
+                                           
+                                           
+                                           
+                                           
+                                           
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  END CONTENT PART  -->
+    </div>
+    <!-- END MAIN CONTAINER -->
+
+  
+
+    {% endblock  %}

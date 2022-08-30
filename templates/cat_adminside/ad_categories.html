@@ -1,0 +1,375 @@
+{% extends 'cat_adminside/cat_adminbase.html' %}
+
+
+{% load static %}
+
+
+
+
+{% block blockcontent %}
+    
+
+    
+        <!--  END SIDEBAR  -->
+
+        <!--  BEGIN CONTENT PART  -->
+        <div id="content" class="main-content">
+            <div class="container">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h3>Category</h3>
+                        <div class="crumbs">
+                            <ul id="breadcrumbs" class="breadcrumb">
+                                <li><a href="index.html"><i class="flaticon-home-fill"></i></a></li>
+                                <li><a href="#">eCommerce</a></li>
+                                <li class="active"><a href="#">Category List</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row margin-bottom-120">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="statbox widget box box-shadow">
+                            <div class="widget-header">
+                                <div class="row">
+                                    <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                        <h4>Category List </h4>
+                                        <a href="{% url 'category_add' %}">
+                                            <button type="button" class="btn btn-primary mt-2 ms-5 ">Add Category</button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-content widget-content-area">
+                                <div class="table-responsive mb-4">
+                                    
+                                 
+                                 {% for msg in messages %}
+                                    <p class="text-success">{{msg}}</p>
+                                 {% endfor %}
+                                    
+                                        
+                                    <table id="ecommerce-product-list" class="table  table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Image</th>
+                                                <th>Category</th>
+                                                <!-- <th>Product List</th> -->
+                                                <!-- <th>Category</th> -->
+                                                <!-- <th>Sku</th> -->
+                                                <!-- <th>Price</th> -->
+                                                <th>View Products</th>
+                                                <th class="align-center">Edit</th>
+                                                <th class="align-center">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            
+                                            {% for category in categories %}
+                                                
+                                           
+                                                
+                                            <tr>
+                                                <td>{{category.id}}</td>
+                                                <td class="text-center">
+                                                    
+                                                    {% if not category.cat_image %}
+                                                        <p>No Image</p>
+                                                    {% else %}
+                                                        
+                                                <a class="product-list-img" href="javascript: void(0);"><img src="{{ category.cat_image.url }}" alt="product"></a></td>
+                                                {% endif %}
+                                                <td>{{ category.title }}</td>
+                                                <td>
+                                                    <a href="{% url 'productlist' category.id %}"><button type="button" class="btn btn-primary">View Product</button></a>
+                                                    <div class="modal" tabindex="-1">
+                                                        <div class="modal-dialog">
+                                                          <div class="modal-content">
+                                                            <div class="modal-header">
+                                                              <h5 class="modal-title">Modal title</h5>
+                                                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <!-- <div class="modal-body">
+                                                              <p>Modal body text goes here.</p>
+                                                            </div> -->
+                                                            <div class="modal-footer">
+                                                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                              <button type="button" class="btn btn-primary">Save changes</button>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                </td>
+                                                <!-- <td>Glasses</td> -->
+                                                <!-- <td>ITEM-0001</td> -->
+                                                <!-- <td>$120.00</td> -->
+                                                <!-- <td>80,000</td> -->
+                                                <td class="text-center"> 
+                                                    <a href="{% url 'category-edit' category.id %}"><button type="button" class="btn btn-primary">Edit</button></a>
+                                                </td>
+                                                <td class="align-center">
+                                                    <ul class="table-controls">
+                                                       
+                                                        <li>
+                                                            <!-- <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                                <i class="flaticon-delete-5"></i>
+                                                            </a> -->
+                                                            <a href="{% url 'delete_category' category.id %}"><button type="button" class="btn btn-primary" onclick="return confirm('Delete Product?')">Delete</button></a>
+                                                            
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            <!-- <tr>
+                                                <td>0011</td>
+                                                <td class="text-center">
+                                                <a class="product-list-img" href="javascript: void(0);"><img src="assets/img/60x60.jpg" alt="product"></a></td>
+                                                <td>Flower Pot</td>
+                                                <td>Simple Product</td>
+                                                <td>Decor</td>
+                                                <td>ITEM-0002</td>
+                                                <td>$149.00</td>
+                                                <td>64,000</td>
+                                                <td class="text-center"> <i class="flaticon-cart-bag"></i> </td>
+                                                <td class="align-center">
+                                                    <ul class="table-controls">
+                                                        <li>
+                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                                <i class="flaticon-edit"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                                <i class="flaticon-delete-5"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>0012</td>
+                                                <td class="text-center">
+                                                <a class="product-list-img" href="javascript: void(0);"><img src="assets/img/60x60.jpg" alt="product"></a></td>
+                                                <td>Chair</td>
+                                                <td>Simple Product</td>
+                                                <td>Furniture</td>
+                                                <td>ITEM-0003</td>
+                                                <td>$49.00</td>
+                                                <td>42,000</td>
+                                                <td class="text-center"> <i class="flaticon-cart-bag-1"></i> </td>
+                                                <td class="align-center">
+                                                    <ul class="table-controls">
+                                                        <li>
+                                                            <a href="javascript:void(0);"  data-toggle="tooltip" data-placement="top" title="Edit">
+                                                                <i class="flaticon-edit"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                                <i class="flaticon-delete-5"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>0013</td>
+                                                <td class="text-center">
+                                                <a class="product-list-img" href="javascript: void(0);"><img src="assets/img/60x60.jpg" alt="product"></a></td>
+                                                <td>Night Lamp</td>
+                                                <td>Simple Product</td>
+                                                <td>Decor</td>
+                                                <td>ITEM-0004</td>
+                                                <td>$79.00</td>
+                                                <td>51,000</td>
+                                                <td class="text-center"> <i class="flaticon-cart-bag-1"></i> </td>
+                                                <td class="align-center">
+                                                    <ul class="table-controls">
+                                                        <li>
+                                                            <a href="javascript:void(0);"  data-toggle="tooltip" data-placement="top" title="Edit">
+                                                                <i class="flaticon-edit"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                                <i class="flaticon-delete-5"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>0014</td>
+                                                <td class="text-center">
+                                                <a class="product-list-img" href="javascript: void(0);"><img src="assets/img/60x60.jpg" alt="product"></a></td>
+                                                <td>Wall Clock</td>
+                                                <td>Simple Product</td>
+                                                <td>Electronics</td>
+                                                <td>ITEM-0005</td>
+                                                <td>$120.00</td>
+                                                <td>80,000</td>
+                                                <td class="text-center"> <i class="flaticon-cart-bag"></i> </td>
+                                                <td class="align-center">
+                                                    <ul class="table-controls">
+                                                        <li>
+                                                            <a href="javascript:void(0);"  data-toggle="tooltip" data-placement="top" title="Edit">
+                                                                <i class="flaticon-edit"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                                <i class="flaticon-delete-5"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>0015</td>
+                                                <td class="text-center">
+                                                <a class="product-list-img" href="javascript: void(0);"><img src="assets/img/60x60.jpg" alt="product"></a></td>
+                                                <td>Canon 1300B</td>
+                                                <td>Simple Product</td>
+                                                <td>Electronics</td>
+                                                <td>ITEM-0006</td>
+                                                <td>$149.00</td>
+                                                <td>64,000</td>
+                                                <td class="text-center"> <i class="flaticon-cart-bag"></i> </td>
+                                                <td class="align-center">
+                                                    <ul class="table-controls">
+                                                        <li>
+                                                            <a href="javascript:void(0);"  data-toggle="tooltip" data-placement="top" title="Edit">
+                                                                <i class="flaticon-edit"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                                <i class="flaticon-delete-5"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>0016</td>
+                                                <td class="text-center">
+                                                <a class="product-list-img" href="javascript: void(0);"><img src="assets/img/60x60.jpg" alt="product"></a></td>
+                                                <td>Leather Bag</td>
+                                                <td>Simple Product</td>
+                                                <td>Accessories</td>
+                                                <td>ITEM-0007</td>
+                                                <td>$49.00</td>
+                                                <td>42,000</td>
+                                                <td class="text-center"> <i class="flaticon-cart-bag-1"></i> </td>
+                                                <td class="align-center">
+                                                    <ul class="table-controls">
+                                                        <li>
+                                                            <a href="javascript:void(0);"  data-toggle="tooltip" data-placement="top" title="Edit">
+                                                                <i class="flaticon-edit"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                                <i class="flaticon-delete-5"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>0017</td>
+                                                <td class="text-center">
+                                                <a class="product-list-img" href="javascript: void(0);"><img src="assets/img/60x60.jpg" alt="product"></a></td>
+                                                <td>Adidas Cap</td>
+                                                <td>Simple Product</td>
+                                                <td>Accessories</td>
+                                                <td>ITEM-0008</td>
+                                                <td>$79.00</td>
+                                                <td>51,000</td>
+                                                <td class="text-center"> <i class="flaticon-cart-bag-1"></i> </td>
+                                                <td class="align-center">
+                                                    <ul class="table-controls">
+                                                        <li>
+                                                            <a href="javascript:void(0);"  data-toggle="tooltip" data-placement="top" title="Edit">
+                                                                <i class="flaticon-edit"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                                <i class="flaticon-delete-5"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>0018</td>
+                                                <td class="text-center">
+                                                <a class="product-list-img" href="javascript: void(0);"><img src="assets/img/60x60.jpg" alt="product"></a></td>
+                                                <td>Winter Boots</td>
+                                                <td>Simple Product</td>
+                                                <td>Footwear</td>
+                                                <td>ITEM-0009</td>
+                                                <td>$120.00</td>
+                                                <td>80,000</td>
+                                                <td class="text-center"> <i class="flaticon-cart-bag"></i> </td>
+                                                <td class="align-center">
+                                                    <ul class="table-controls">
+                                                        <li>
+                                                            <a href="javascript:void(0);"  data-toggle="tooltip" data-placement="top" title="Edit">
+                                                                <i class="flaticon-edit"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                                <i class="flaticon-delete-5"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>0019</td>
+                                                <td class="text-center">
+                                                <a class="product-list-img" href="javascript: void(0);"><img src="assets/img/60x60.jpg" alt="product"></a></td>
+                                                <td>Hover Board</td>
+                                                <td>Simple Product</td>
+                                                <td>Sports</td>
+                                                <td>ITEM-0010</td>
+                                                <td>$149.00</td>
+                                                <td>64,000</td>
+                                                <td class="align-center"> <i class="flaticon-cart-bag"></i> </td>
+                                                <td class="align-center">
+                                                    <ul class="table-controls">
+                                                        <li>
+                                                            <a href="javascript:void(0);"  data-toggle="tooltip" data-placement="top" title="Edit">
+                                                                <i class="flaticon-edit"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                                <i class="flaticon-delete-5"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr> -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  END CONTENT PART  -->
+    </div>
+    <!-- END MAIN CONTAINER -->
+
+  
+
+    {% endblock  %}

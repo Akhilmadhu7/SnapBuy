@@ -1,0 +1,57 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
+    <title>Login-1 | Equation - Multipurpose Bootstrap Dashboard Template </title>
+    <link rel="icon" type="image/x-icon" href="{% static '/adminstyles/assets/img/favicon.ico' %}"/>
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+    <link href="{% static '/adminstyles/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static '/adminstyles/assets/css/plugins.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static '/adminstyles/assets/css/users/login-1.css' %}" rel="stylesheet" type="text/css" />
+    <!-- END GLOBAL MANDATORY STYLES -->
+    
+</head>
+<body class="login">
+
+    <form class="form-login" method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-12 text-center mb-4">
+                <h2 class="fst-italic fw-bolder mb-5 text-primary">Snap Buy</h2>
+                <!-- <img alt="logo" src="assets/img/logo-5.png" class="theme-logo"> -->
+            </div>
+            {% for usermsg in messages %}
+            <h6 class="text-danger">{{usermsg}}</h6>
+            {% endfor %} 
+            <div class="col-md-12">
+                <label for="inputEmail" class="">Phone Number</label>                
+                <input type="tel" id="inputEmail" name="phone_number" class="form-control mb-4" placeholder="Login" required >                
+                <label for="inputPassword" class="">Password</label>                
+                <input type="password" id="inputPassword" class="form-control mb-5" name="password" placeholder="Password" required>                
+                <div class="checkbox d-flex justify-content-between mb-4 mt-3">
+
+                   
+
+                </div>                
+                <button class="btn btn-lg btn-gradient-danger btn-block btn-rounded mb-4 mt-1" type="submit">Login</button>
+                
+            </div>
+
+           
+
+        </div>
+    </form>
+    
+    <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
+    <script src="{% static '/adminstyles/assets/js/libs/jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static '/adminstyles/bootstrap/js/popper.min.js' %}"></script>
+    <script src="{% static '/adminstyles/bootstrap/js/bootstrap.min.js' %}"></script>
+    
+    <!-- END GLOBAL MANDATORY SCRIPTS -->
+</body>
+</html>

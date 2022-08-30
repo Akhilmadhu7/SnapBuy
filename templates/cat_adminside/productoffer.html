@@ -1,0 +1,147 @@
+{% extends 'cat_adminside/cat_adminbase.html' %}
+
+
+{% load static %}
+
+
+
+
+{% block blockcontent %}
+    
+
+    
+        <!--  END SIDEBAR  -->
+
+        <!--  BEGIN CONTENT PART  -->
+        <div id="content" class="main-content">
+            <div class="container">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h3>Offers</h3>
+                        <div class="crumbs">
+                            <ul id="breadcrumbs" class="breadcrumb">
+                                <li><a href="index.html"><i class="flaticon-home-fill"></i></a></li>
+                                <li><a href="#">eCommerce</a></li>
+                                <li class="active"><a href="#">Offer List</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row margin-bottom-120">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="statbox widget box box-shadow">
+                            <div class="widget-header">
+                                <div class="row">
+                                    <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                        <h4>Offer List </h4>
+                                        
+                                        {% for msg in messages %}
+                                            <p class="text-success">{{msg}}</p>
+                                        {% endfor %}
+                                            
+                                        <a href="{% url 'add_prod_offer' %}">
+                                            <button type="button" class="btn btn-primary mt-2 ms-5 ">Add Offer</button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-content widget-content-area">
+                                <div class="table-responsive mb-4">
+                                    <table id="ecommerce-product-list" class="table  table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                
+                                                <th>Products</th>
+                                                
+                                                <th>Offer</th>
+                                                <!-- <th>Product List</th> -->
+                                                <!-- <th>Category</th> -->
+                                                <!-- <th>Sku</th> -->
+                                                <th>Valid From</th>
+                                                <th>Valid To</th>
+                                                <th class="align-center">Edit</th>
+                                                <th class="align-center">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            
+                                            {% for p in p_offer %}
+                                                
+                                           
+                                                
+                                            <tr>
+                                                <td>{{forloop.counter}}</td>
+                                               
+                                                <td>{{p.product}}</td>
+                                               
+                                                <td>{{p.offer}}</td>
+                                                <td>
+                                                    {{p.valid_from}}
+                                                    
+                                                </td>
+                                                <!-- <td>Glasses</td> -->
+                                                <!-- <td>ITEM-0001</td> -->
+                                                <!-- <td>$120.00</td> -->
+                                                <td>{{p.valid_to}}</td>
+                                                <td class="align-center">
+                                                    <ul class="table-controls">
+                                                       
+                                                        <li>
+                                                            <!-- <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                                <i class="flaticon-delete-5"></i>
+                                                            </a> -->
+                                                            <a href="{% url 'edit_prod_offer' p.id %}"><button type="button" onclick="return ofdelete()" class="btn btn-primary" >Edit</button></a>
+                                                            
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                                
+                                                <td class="align-center">
+                                                    <ul class="table-controls">
+                                                       
+                                                        <li>
+                                                            <!-- <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                                <i class="flaticon-delete-5"></i>
+                                                            </a> -->
+                                                            <a href="{% url 'prodoffer_delete' p.id %}"><button type="button" class="btn btn-primary" onclick="return confirm('Delete Product Offer?')">Delete</button></a>
+                                                            
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                           
+                                           
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  END CONTENT PART  -->
+    </div>
+    <!-- END MAIN CONTAINER -->
+
+  
+
+    {% endblock  %}
+    
+    {% block script-block %}
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script>
+        function ofdelete(){
+            swal("Are you sure you want to do this?", {
+                buttons: ["Oh noez!", "Aww yiss!"],
+              });
+        }
+    </script>
+        
+    {% endblock  %}
+        

@@ -1,0 +1,168 @@
+{% extends 'userside/userbase.html' %}
+
+{% load static %}
+
+
+
+{% block contentblock %}
+    
+
+
+
+
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->  
+
+    <!-- Body main wrapper start -->
+    <div class="wrapper">
+
+        
+        
+      
+
+       
+
+        <!-- Start page content -->
+        <section id="page-content" class="page-wrapper section">
+
+            <!-- SHOP SECTION START -->
+            <div class="shop-section mb-80">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <ul class="nav cart-tab">
+                                <li>
+                                    <a class="active" href="{% url 'cart_view' %}" >
+                                        <span>01</span>
+                                        Shopping cart
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="active"  href="{% url 'wish_list' %}">
+                                        <span>02</span>
+                                        Wishlist
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'itemcheckout' %}" >
+                                        <span>03</span>
+                                        Checkout
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'myorder' %}">
+                                        <span>04</span>
+                                        Order complete
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-10">
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                
+                                <!-- wishlist start -->
+                                {% if not wishitem %}
+                                <div>
+                                    <h1 class="text-center mt-5">Your Wishlist Is Empty !!</h1>
+                                </div>
+                                <div class="d-flex justify-content-center mt-5 ">
+                                    
+                                    <img src="http://almureed.ae/assets/website/images/empty-cart.gif" class="img-fluid" alt="">
+                                
+                                </div>
+                                <div class="d-flex justify-content-center my-auto mt-5">
+                                    <a href="{% url 'userindex' %}">
+                                        <button type="submit" class="btn box-shadow submit-btn-1 btn-hover-2  "> Add To Favourites </button>
+                                    </a>
+                                </div>  
+                                {% else %}
+                                    <div class="wishlist-content">
+                                        <form action="#">
+                                            <div class="table-content table-responsive mb-50">
+                                             
+                                                <table class="text-center">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="product-thumbnail">product</th>
+                                                            <th class="product-price">price</th>
+                                                            <th class="product-stock">Stock status</th>
+                                                            <th class="product-add-cart">add to cart</th>
+                                                            <th class="product-remove">remove</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <!-- tr -->
+                                                        
+                                                       
+                                                            
+                                                        
+                                                        {% for item in wishitem %}
+                                                        <tr>
+                                                            <td class="product-thumbnail">
+                                                                <div class="pro-thumbnail-img">
+                                                                    <a href="{% url 'product_detial' item.product.id %}">
+                                                                       <img src="{{item.product.productimage.url}}" alt="">
+                                                                     </a>
+                                                                </div>
+                                                                <div class="pro-thumbnail-info text-left">
+                                                                    <h6 class="product-title-2">
+                                                                        <a href="#">{{item.product.product_name}}</a>
+                                                                    </h6>
+                                                                    <p>Brand: {{item.product.brand_name}}</p>
+                                                                    <p>Ram: {{item.product.ram}}</p>
+                                                                    <p>Storage: {{item.product.storage}}</p>
+                                                                    <p> Color: {{item.product.color}}</p>
+                                                                </div>
+                                                            </td>
+                                                            <td class="product-price">{{item.product.price}}</td>
+                                                            
+                                                            {% if item.product.stock < 1 %}
+                                                            <td class="text-danger" class="product-stock text-uppercase">Product Not Available</td>
+                                                            {% else %}
+                                                                
+                                                            <td class="product-stock text-uppercase">In Stock</td>
+                                                            {% endif %}
+                                                            <td class="product-add-cart">
+                                                                <a href="{% url 'addtocart' item.product.id %}" title="Add To Cart">
+                                                                    <i class="zmdi zmdi-shopping-cart-plus"></i>
+                                                                </a>
+                                                            </td>
+                                                            <td class="product-remove">
+                                                                <a href="{% url 'wishlist_remove' item.product.id %}"><i class="zmdi zmdi-close"></i></a>
+                                                            </td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                        {% endif %}
+                                                            
+                                                        
+                                                        
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </form>
+                                    </div>
+                                
+                                <!-- wishlist end -->
+                                
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- SHOP SECTION END -->             
+
+        </section>
+        <!-- End page content -->
+
+
+       
+    </div>
+    <!-- Body main wrapper end -->
+
+
+    {% endblock  %}
+
+

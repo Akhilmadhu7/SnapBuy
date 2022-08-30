@@ -1,0 +1,283 @@
+{% extends 'userside/userbase.html' %}
+
+{% load static %}
+
+
+
+{% block contentblock %}
+    
+
+
+
+
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->  
+
+    <!-- Body main wrapper start -->
+    <div class="wrapper">
+
+        
+        
+      
+
+       
+
+        <!-- Start page content -->
+        <section id="page-content" class="page-wrapper section">
+
+            <!-- SHOP SECTION START -->
+            <div class="shop-section mb-80">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <ul class="nav cart-tab">
+                                <li>
+                                    <a class="active" href="{% url 'cart_view' %}" data-bs-toggle="tab">
+                                        <span>01</span>
+                                        Shopping cart
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'wish_list' %}" >
+                                        <span>02</span>
+                                        Wishlist
+                                    </a>
+                                </li>
+                                <li>
+                                    <a  href="{% url 'itemcheckout' %}" >
+                                        <span>03</span>
+                                        Checkout
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#order-complete" data-bs-toggle="tab">
+                                        <span>04</span>
+                                        Order complete
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-10">
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <!-- shopping-cart start -->
+                                <div class="tab-pane active" id="shopping-cart">
+                                    <div class="shopping-cart-content">
+                                        
+                                        {% if not cart_items %}
+                                        <div>
+                                            <h1 class="text-center mt-5">Your Cart Is Empty !!</h1>
+                                        </div>
+                                        <div class="d-flex justify-content-center mt-5 ">
+                                            <img src="http://almureed.ae/assets/website/images/empty-cart.gif" class="img-fluid" alt="">
+                                        </div>
+                                        <div class="d-flex justify-content-center my-auto mt-5">
+                                            <a href="{% url 'userindex' %}">
+                                                <button type="submit" class="btn box-shadow submit-btn-1 btn-hover-2  "> View Store </button>
+                                            </a>
+                                        </div>
+
+                                        {% else %}
+                                            
+                                        
+                                            
+                                        <!-- <form action="#"> -->
+                                            <div class="table-content table-responsive mb-50">
+                                                <table class="text-center">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="product-thumbnail">product</th>
+                                                            <th class="product-price">price</th>
+                                                            <th class="product-quantity">Quantity</th>
+                                                            <th class="product-subtotal">subtotal</th>
+                                                            <th class="product-remove">remove</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <!-- tr -->
+                                                       
+                                                        
+                                                        {% for cart in cart_items %}
+                                                            
+                                                        
+                                                            
+                                                        <tr>
+                                                            <td class="product-thumbnail">
+                                                                <div class="pro-thumbnail-img">
+                                                                    <a href="{% url 'product_detial' cart.product.id %}">
+                                                                        <img src="{{ cart.product.productimage.url }}" alt="">
+                                                                    </a>    
+                                                                </div>
+                                                                <div class="pro-thumbnail-info text-left">
+                                                                    <h6 class="product-title-2">
+                                                                        <a href="#">{{cart.product.product_name}}</a>
+                                                                    </h6>
+                                                                    <p>Brand: {{cart.product.brand_name}}</p>
+                                                                    <p>Model: Grand s2</p>
+                                                                    <p> Color: {{cart.product.color}}</p>
+                                                                </div>
+                                                            </td>
+                                                            
+                                                            {% if cart.product.discount_price %}
+                                                            <td class="product-price">{{cart.product.discount_price}}</td>
+                                                            {% else %}
+                                                                
+                                                            <td class="product-price">{{cart.product.price}}</td>{% endif %}
+                                                            <td class="product-quantity">
+                                                                
+                                                                
+                                                                <div class="">
+                                                                    
+                                                                    {% if cart.quantity < 2 %}
+                                                                        
+                                                                    {% else %}
+                                                                        
+                                                                    <div class="dec qtybutton "> <a href="{% url 'cart_remove' cart.product.id %}"> 
+                                                                        <button> - </button> </a> 
+                                                                    </div>{% endif %}
+                                                                    
+                                                                    <input type="text" value="{{cart.quantity}}" name="qtybutton" class="cart-plus-minus-box">
+                                                                    
+
+                                                                    <div class="inc qtybutton"  id="q-change"> <a href="{% url 'increase-cartq' cart.product.id %}" > + </a> </div>
+
+                                                                    
+                                                                     
+                                                                
+                                                                </div> 
+                                                            
+                                                            </td>
+                                                            
+                                                            {% if cart.product.discount_price %}
+                                                            <td class="product-subtotal">{{cart.subtotal}}</td>
+                                                            {% else %}
+                                                                
+                                                            <td class="product-subtotal">{{cart.subtotal}}</td>{% endif %}
+                                                            <td  class="product-remove">
+                                                                <a  href="{% url 'cartproduct_remove' cart.product.id %}" ><i class="zmdi zmdi-close"></i></a>
+                                                                <!-- <a style="cursor: pointer;"  hx-delete="{% url 'cartproduct_remove' cart.product.id %}" hx-confirm="Are you sure to delete?" >
+                                                                    <i class="zmdi zmdi-close"></i></a> -->
+                                                            </td>
+                                                        </tr>
+                                                        <!-- return confirm('Are you sure to remove the product ?') -->
+                                                       
+                                                            
+                                                        {% endfor %}
+                                                            
+                                                        
+                                                        
+                                                        
+                                                            
+                                                        
+                                                    </tbody>
+                                                </table>
+                                                <h3 class="fw-semibold text-dark mt-5">Total: &nbsp; Rs.{{ total }}</h3>
+
+                                              
+                                                <div >
+                                                   
+
+                                                    <a href="{% url 'itemcheckout' %}">
+                                                        <button class="submit-btn-1 btn-hover-2" type="submit">Proceed To Check Out</button>
+                                                    </a>
+                                                </div>
+                                            
+                                                
+                                            </div>
+                                            
+                                            {% endif %}
+                                            
+                                        <!-- </form> -->
+                                    </div>
+                                    
+                                        
+                                </div>
+                                <!-- shopping-cart end -->
+                               
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- SHOP SECTION END -->             
+
+        </section>
+        <!-- End page content -->
+
+
+       
+    </div>
+    <!-- Body main wrapper end -->
+
+
+    {% endblock  %}
+
+    
+    {% block scripts %}
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    
+    <script>
+
+
+
+        function remove(event){
+            event.preventDefault();
+            Swal.fire({
+                title:'Are you sure to remove the product from cart',
+                icon:'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3885d6',
+                cancelButtonColor: '#d33',
+                confirmbuttonText: 'Yes, Do it'
+            }).then((result) => {
+                if(result.isConfirmed){
+                    swal.fire(
+                        'Dlere',
+                        'you detre',
+                        'success'
+                    )
+                    location.href = '/newcart/cartproduct_remove/$()cart.product.i';
+                }
+            })
+
+        }
+
+       /* function remove(){
+
+        }
+            $('#remove').on('click',function(e){
+                e.preventDefault();
+                var self = $(this);
+                swal.fire({
+                    title:'Are you sure to remove the product from cart',
+                    icon:'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3885d6',
+                    cancelButtonColor: '#d33',
+                    confirmbuttonText: 'Yes, Do it'
+                }).then((result) => {
+                    if (result.isConfirmed){
+                        swal.fire(
+                            'Dlere',
+                            'you detre',
+                            'success'
+                        )
+                        location.href = self.attr('href');
+                    }
+                })
+            })*/
+            
+    </script>
+    <script>
+        function removeit(){
+            swal("Are you sure you want to do this?", {
+                buttons: ["Oh noez!", true],
+              });
+        }
+    </script>
+    {% endblock scripts %}
+        
+
+

@@ -1,0 +1,172 @@
+{% extends 'cat_adminside/cat_adminbase.html' %}
+
+
+{% load static %}
+
+
+
+
+{% block blockcontent %}
+<body>
+    
+
+        <!--  BEGIN CONTENT PART  -->
+        <div id="content" class="main-content">
+            <div class="container">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h3>Checkout</h3>
+                        <div class="crumbs">
+                            <ul id="breadcrumbs" class="breadcrumb">
+                                <li><a href="index.html"><i class="flaticon-home-fill"></i></a></li>
+                                <li><a href="#">eCommerce</a></li>
+                                <li class="active"><a href="#">Checkout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row margin-bottom-120" id="cancel-row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="statbox widget box box-shadow">
+                            <div class="widget-header">
+                                <div class="row">
+                                    <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                        <h4>Checkout Express </h4>
+                                    </div>
+                                                                        
+                                </div>
+                            </div>
+                            <div class="widget-content widget-content-area checkout-content">
+                                <div class="container">
+                                    <div class="row mb-5">
+                                        <div class="col-md-12">
+                                            <div class="heading-title">
+                                                <h5 class="mb-4">Billing Details</h5>
+                                            </div>
+                                            <form>
+                                                <div class="row form-row">
+                                                    <div class="col-md-6 form-group">
+                                                        <input class="form-control mb-4" type="text" value="{{orders.customername}}" placeholder="First Name">
+                                                    </div>
+                                                    <div class="col-md-6 form-group">
+                                                        <input class="form-control mb-4" type="text" value="{{orders.phone}}"   placeholder=" Phone Number">
+                                                    </div>
+                                                </div>
+                                                <div class="row form-row">
+                                                    <div class="col-md-12 form-group">
+                                                        <input class="form-control mb-4" type="text" value="{{orders.address}}"  placeholder="Street Address">
+                                                    </div>
+                                                    <div class="col-md-12 form-group">
+                                                        <input class="form-control mb-4" type="text" value="{{orders.city}},     {{orders.pincode}}    "   placeholder="Apartment, Suite, Unit etc.">
+                                                    </div>
+                                                </div>
+                                                <div class="row form-row">
+                                                    <div class="col-md-6 form-group">
+                                                        <input class="form-control mb-4" type="text" value="{{orders.state}}"  placeholder="City">
+                                                    </div>
+                                                    <div class="col-md-6 form-group">
+                                                        <input class="form-control mb-4" type="text" value="{{orders.country}}"  placeholder="State">
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                <form action="{% url 'orderstatus' orders.id %}" method="POST"> 
+                                    {% csrf_token %}
+                                    <div class="row">
+                                     
+                                        <div class="col-md-12">
+                                            <div class="heading-title">
+                                                <h5 class=" mb-4">Order Information</h5>
+                                            </div>
+                                            <div class="table-responsive">
+                                                <table class="table cart-table">
+                                                    <tbody>
+                                                        
+                                                        {% for orderitem in orderitems %}
+                                                        <tr>
+                                                            <td><a href="#"><img class="product-thumbnail img-fluid" src="{{ orderitem.product.productimage.url }}" alt=""></a></td>
+                                                            <td>
+                                                                <h6 class="mb-0"><a href="javascript:void(0);">{{orderitem.product.product_name}}</a></h6>
+                                                                <p><small>Color : {{orderitem.product.color}} | Ram : {{orderitem.product.ram}} | Storage : {{orderitem.product.storage}}</small></p>
+                                                                
+                                                            </td>
+                                                            <td>Rs. {{orderitem.product.price}}</td>
+                                                            
+                                                            {% if orderitem.product.discount_price %}
+                                                                <td>Offer Price &nbsp; Rs. {{orderitem.product.discount_price}}</td>
+                                                            {% endif %}
+                                                                
+                                                            <td>
+                                                                <p class="product-quantity text-center">Qty: {{orderitem.quantity}}</p>
+                                                            </td>
+                                                            <td>
+                                                                <p></p>
+                                                            </td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                        
+                                                        
+                                                        <tr>
+                                                            <td>Payment method</td>
+                                                            <td>{{orders.paymentmode}}</td>
+                                                            <td></td>
+                                                            <td>Status</td>
+                                                            <td class="text-right">
+                                                                <select class="form-control " value="status" name="status">
+                                                                <option value="{{orders.status}}">{{orders.status}}</option>
+                                                                 <option >Pending</option>
+                                                                 <option >Out for shipping</option>
+                                                                 <option >Delivered</option>
+                                                                 <option >Cancelled</option>
+                                                                 <option >Returned</option>
+                                                                  
+                                                                </select>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Tax :</td>
+                                                            <td>Rs. {{orders.tax}}</td>
+                                                            <td>Shipping :</td>
+                                                            <td></td>
+                                                            <td >Rs. {{orders.shippping}}</td>
+                                                        </tr>
+                                                        <tr class="total-amount">
+                                                            <td>Total</td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td class="text-right">Rs. {{orders.grandtotal}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="text-right">
+                                               <a href="{% url 'orderstatus' orders.id %}">
+                                                <button type="submit" class="btn btn-primary btn-rounded mt-4 mb-4">
+                                                    Save 
+                                               </button>
+                                            </a> 
+                                            </div>
+                                        </div>
+                                     
+                                    </div>
+                                </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+     
+    
+    
+    
+</body>
+
+
+    
+{% endblock  %}
+    

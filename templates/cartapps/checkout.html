@@ -1,0 +1,482 @@
+{% extends 'userside/userbase.html' %}
+
+{% load static %}
+
+
+
+{% block contentblock %}
+    
+
+
+
+
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->  
+
+    <!-- Body main wrapper start -->
+    <!-- <div class="wrapper"> -->
+
+        
+        
+      
+
+       
+
+        <!-- Start page content -->
+        <section id="page-content" class="page-wrapper section">
+
+            <!-- SHOP SECTION START -->
+            <div class="shop-section mb-80">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <ul class="nav cart-tab">
+                                <li>
+                                    <a class="active" href="{% url 'cart_view' %}" >
+                                        <span>01</span>
+                                        Shopping cart
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="active" href="{% url 'wish_list' %}" >
+                                        <span>02</span>
+                                        Wishlist
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="active" href="{% url 'itemcheckout' %}" >
+                                        <span>03</span>
+                                        Checkout
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'myorder' %}">
+                                        <span>04</span>
+                                        Order complete
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                      
+                        <div class="col-lg-10">
+                            
+                            {% for msg in messages %}
+                               <p class="text-danger" >{{msg}}</p> 
+                            {% endfor %}
+                            
+                            <!-- {% if coupon %}
+                                <p class="fw-semibold text-success">Congratz!! You got a coupon and the code is '{{coupon}}'</p>
+                            {% endif %} -->
+                                
+                                
+                            <!-- <div class="row">
+                                <div class="col-md-6 ">
+                                    <div class="coupon-discount box-shadow p-30 mb-50">
+                                        <h6 class="widget-title border-left mb-20">coupon discount</h6>
+                                        <p>Enter your coupon code if you have one!</p>
+                                        <form action="{% url 'applycoupon' %}" method="POST">
+                                            {% csrf_token %}
+                                            <input type="text" name="coupon" placeholder="Enter your code here.">
+                                         
+                                            <button class="submit-btn-1 btn-hover-2" type="submit">apply coupon</button>
+                                        </form>
+                                    </div>
+                                </div> 
+                            </div> -->
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                            
+                                <!-- checkout start -->
+                                
+                                    <div class="checkout-content box-shadow p-30">
+                                        {% if not cart_items %}
+                        
+                                        <div>
+                                            <p>Continue Shopping</p>
+                                            <a href="{% url 'userindex' %}">
+                                                <button type="submit" class="submit-btn-1 btn-hover-2"> View Store </button>
+                                            </a>
+                                        </div>
+                
+                                        {% else %}
+
+                                        <div class="row">
+                                            <div class="col-md-6 ">
+                                                <div class="coupon-discount box-shadow p-30 mb-50">
+                                                    <h6 class="widget-title border-left mb-20">coupon discount</h6>
+                                                    <p>Enter your coupon code if you have one!</p>
+                                                    <form action="{% url 'applycoupon' %}" method="POST">
+                                                        {% csrf_token %}
+                                                        <input type="text" name="coupon" placeholder="Enter your code here.">
+                                                     
+                                                        <button class="submit-btn-1 btn-hover-2" type="submit">apply coupon</button>
+                                                    </form>
+                                                </div>
+                                            </div> 
+                                        </div>
+                                        
+                                        
+                                            <div class="row">
+                                                <!-- billing details -->
+                                                <div class="col-md-6">
+                                                    <div class="billing-details pr-10">
+                                                        <h6 class="widget-title border-left mb-20">Select Address</h6>
+                                                        
+                                                        <form action="{% url 'checkout_address' %}" method="POST" >
+                                                            {% csrf_token %}
+                                                            <div class="accordion mt-4" id="accordionExample">
+                                                                <div class="accordion-item">
+                                                                    <h2 class="accordion-header " id="address">
+                                                                        <button class="accordion-button " type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                                            <H3 class="fw-semibold">Add Address</H3>
+                                                                          </button>
+                                                                    </h2>
+                                                                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="addreess" data-bs-parent="#accordionExample">
+                                                                        <div class="accordion-body">
+
+                                                                            <input type="text" name="name" id="name" value="{{address.name}}" placeholder="Your Name Here..." onkeyup="namevalidation()">
+                                                                            <span class="text-danger" id="name-error"></span>
+                                                                            <input type="text" name="email" id="email" required="" value="{{address.email}}" placeholder="Email address here..." onkeyup="emailvalidation()">
+                                                                            <span class="text-danger" id="email-error"></span>
+                                                                            <input type="text" name="phone" id="phone"  value="{{address.phonenumber}}" placeholder="Phone here..." onkeyup="numbervalidation()">
+                                                                            <span class="text-danger" id="phone-error"></span>
+                                                                            <textarea class="custom-textarea"  id="address" value="{{address.address}}" name="address" placeholder="Your address here..." onkeyup="addressvalidation()">{{address.newaddress}}</textarea>
+                                                                            <span class="text-danger" id="address-error"></span>
+                                                                            <input type="text" name="pincode" id="pincode" required="" value="{{address.pincode}}" placeholder="Pincode" onkeyup="pinvalidation()">
+                                                                            <span class="text-danger" id="pin-error"></span>
+                                                                            <input type="text" name="state"  id="state" value="{{address.state}}" placeholder="State" onkeyup="statevalidation()">
+                                                                            <span class="text-danger" id="state-error"></span>
+                                                                            <input type="text" name="city"  id="city" value="{{address.city}}" placeholder="City" onkeyup="cityvalidation()">
+                                                                            <span class="text-danger" id="city-error"></span>
+                                                                            <input type="text" name="country"  id="country" value="{{address.country}}" placeholder="Country" onkeyup="countryvalidation()">
+                                                                            <span class="text-danger" id="country-error"></span>
+                                                                            <div class="panel text-center">
+                                                                                <h4 class="payment-title box-shadow submit-btn-1 btn-hover-2"  style="border-radius: 5px;">
+                                                                                    <button type="submit" class="cod text-light fw-bolder fs-2" style="border-radius: 5px;" id="success" onclick="return formvalidation()">
+                                                                                        Add Address
+                                                                                    </button>
+                                                                                </h4><span id="form-error"></span>
+                                                                                
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                </div>
+
+                                                            </div>
+                                                        
+                                                        </form>
+                                                    <form action="{% url 'make_payment' %}" method="POST" >
+                                                            {% csrf_token %}
+                                                        {% if address %}
+                                                        {% for add in address %}    
+                                                        <div class="accordion mt-4" id="accordionExample">
+                                                            <div class="accordion-item">
+                                                              <h2 class="accordion-header" id="{{add.id}}">
+                                                                <button  class="accordion-button" name="btn" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne{{add.id}}" aria-expanded="true" aria-controls="collapseOne">
+                                                                    
+                                                                 <input type="radio"  name="addid" value="{{add.id}}"> <p class="fw-semibold text-dark pt-3"> &nbsp; {{add.name}}</p>
+                                                                 
+                                                                </button>
+                                                              </h2>
+                                                              <div id="collapseOne{{add.id}}" class="accordion-collapse collapse" aria-labelledby="{{add.id}}" data-bs-parent="#accordionExample">
+                                                                <div class="accordion-body">
+
+                                                                  <label name="name" id="name" value="{{add.name}}" for="">{{add.name}}</label> <br>
+                                                                  <input  type="text" name="name" value="{{add.name}}" id="name" hidden>
+
+                                                                  <label name="email" value="{{add.email}}" for="">{{add.email}}</label> <br>
+                                                                  <input  type="text" id="email" name="email" value="{{add.email}}" hidden>
+
+                                                                  <label name="phone" value="{{add.phonenumber}}" for="">{{add.phonenumber}}</label> <br>
+                                                                  <input  type="text" id="phone" name="phone" value="{{add.phonenumber}}" hidden>
+
+                                                                  <label name="address" value="{{add.newaddress}}" for="">{{add.newaddress}}</label> <br>
+                                                                  <input  type="text" name="address" value="{{add.newaddress}}" hidden>
+
+                                                                  <label name="city" value="{{add.city}}" for="">{{add.city}}</label> 
+                                                                  <input  type="text" name="city" value="{{add.city}}" hidden>
+
+                                                                  <label name="pincode" value="{{add.pincode}}" for="">{{add.pincode}}</label> <br>
+                                                                  <input  type="text" name="pincode" value="{{add.pincode}}" hidden>
+
+                                                                  <label name="state" value="{{add.state}}" for="">{{add.state}}</label> <br>
+                                                                  <input  type="text" name="state" value="{{add.state}}" hidden>
+
+                                                                  <label name="country" value="{{add.country}}" for="">{{add.country}}</label>
+                                                                  <input  type="text" name="country" value="{{add.country}}" hidden>
+                                                                  
+                                                                </div>
+                                                              </div>
+                                                            </div>
+                                                            
+                                                            
+                                                        </div>
+                                                        {% endfor %}
+                                                        {% else %}
+                                                        {% endif %}
+
+                                                                
+                                                                
+                                                               
+                                                            
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <!-- our order -->
+                                                    <div class="payment-details pl-10 mb-50">
+                                                        <h6 class="widget-title border-left mb-20">our order</h6>
+                                                        {% if cart_items %}
+                                                        <table>
+                                                        
+                                                            {% for cart in cart_items %}
+                                                               
+                                                            {% if cart.quantity > 1 %}
+
+                                                            <tr>
+                                                                <td class="td-title-1">{{cart.product.product_name}} &nbsp; Qty: {{cart.quantity}} </td>
+                                                                {% if cart.product.discount_price %}
+                                                                <td class="td-title-2">RS.{{cart.product.discount_price}}</td>
+                                                                {% else %}
+                                                                    
+                                                                <td class="td-title-2">RS.{{cart.product.price}}</td>
+                                                                {% endif %}
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="td-title-1">Subtotal</td>
+                                                                <td class="td-title-2">RS.{{cart.subtotal}}</td>
+
+                                                            </tr>
+                                                            {% else %}
+                                                            <tr>
+                                                                <td class="td-title-1">{{cart.product.product_name}} &nbsp; Qty: {{cart.quantity}} </td>
+                                                                
+                                                                {% if cart.product.discount_price %}
+                                                                <td class="td-title-2">RS.{{cart.product.discount_price}}</td>
+                                                                {% else %}
+                                                                    
+                                                                <td class="td-title-2">RS.{{cart.product.price}}</td>
+                                                                {% endif %}
+                                                            </tr>
+                                                                
+                                                               {% endif %}
+                                                            
+                                                                
+                                                               {% endfor %}
+                                                               
+                                                            
+                                                            <tr>
+                                                                <td class="td-title-1">Total</td>
+                                                                <td class="td-title-2">Rs.{{total}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="td-title-1">Shipping and Handling</td>
+                                                                <td class="td-title-2">Rs.{{shipping}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="td-title-1">Tax</td>
+                                                                <td class="td-title-2">Rs.{{totaltax}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="order-total">Order Total</td>
+                                                                <td class="order-total-price">Rs.{{grandtotal}}</td>
+                                                            </tr>
+                                                            
+                                                        </table>
+                                                        {% else %}
+                                                        <p>no Cart</p>
+                                                        {% endif %}
+                                                    </div> 
+                                                    
+                                                    <div class="payment-method">
+                                                        <h6 class="widget-title border-left mb-20">PlaceOrder</h6>
+                                                        <div id="accordion">
+                                                            <div class="panel">
+                                                                <input type="hidden" value="COD" name="paymentmode">
+                                                            
+                                                               
+                                                                
+                                                            </div>
+                                                            <div class="panel text-center">
+                                                                <h4 class="payment-title box-shadow submit-btn-1 btn-hover-2"  style="border-radius: 5px;">
+                                                                    <button type="submit" class="cod text-light fw-bolder fs-2" style="border-radius: 5px;" id="success">
+                                                                        Make Payment
+                                                                    </button>
+                                                                </h4><span id="form-error"></span>
+                                                                
+                                                            </div>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                        </form>
+                                        {% endif %}
+                                        
+                                    </div>
+                                
+                                <!-- checkout end -->
+                                
+                                
+                                
+                            </div>
+                        </div>
+                       
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- SHOP SECTION END -->             
+
+        </section>
+        <!-- End page content -->
+
+
+       
+    <!-- </div> -->
+    <!-- Body main wrapper end -->
+
+
+    {% endblock  %}
+
+    
+    {% block scripts %}
+    <!-- <script src="https://checkout.razorpay.com/v1/checkout.js"></script> -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- <script src="https://www.paypal.com/sdk/js?client-id=AXVF0X4uk5pATl0KAGXtLLPZZNvJm-LOjXhmEn91b3O4UdCbNmzLM7ZsJlryXNjrKsfKxRI9u094VdEs&currency=USD"></script> -->
+
+    
+
+    
+
+    
+
+    <script>
+
+        
+
+        var nameError = document.getElementById('name-error')
+        var emailError = document.getElementById('email-error')
+        var phoneError = document.getElementById('phone-error')
+        var pinError = document.getElementById('pin-error')
+        var cityError = document.getElementById('city-error')
+        var addressError = document.getElementById('address-error')
+        var stateError = document.getElementById('state-error')
+        var countryError = document.getElementById('country-error')
+        var formError = document.getElementById('form-error')
+
+        function namevalidation(){
+
+            var name = document.getElementById('name').value
+            if(!name.match(/^[A-Za-z\s]{3,}$/)){
+            nameError.innerHTML = 'Username must be characters only'
+            return false;
+      
+            }
+            nameError.innerHTML = ''
+            return true;
+        }
+
+        function emailvalidation(){
+
+            var email = document.getElementById('email').value
+            if(!email.match(/^[a-zA-Z0-9-_]+@[a-zA-Z0-9]+\.[a-z]{2,3}$/)){
+                emailError.innerHTML = 'Invalid Email';
+                return false;
+            }
+            emailError.innerHTML = ''
+            return true;
+
+        }
+
+        function numbervalidation(){
+            
+            var phone = document.getElementById('phone').value
+            if(!phone.match(/^\d{10}$/)){
+                phoneError.innerHTML = 'Invalid Number';
+                return false;
+            }
+            phoneError.innerHTML = ''
+            return true;
+
+        }
+
+        function pinvalidation(){
+
+            var pin = document.getElementById('pincode').value
+            if(!pin.match(/^\d{6}$/)){
+                pinError.innerHTML = 'Enter six number pincode';
+                return false;
+            }
+            pinError.innerHTML = ''
+            return true;
+        }
+
+        function cityvalidation(){
+
+            var city = document.getElementById('city').value
+            if(city==''){
+                cityError.innerHTML = 'Field should not be empty';
+                return false;
+            }
+            cityError.innerHTML = ''
+            return true;
+        }
+
+        function statevalidation(){
+
+            var state = document.getElementById('state').value
+            if(state==''){
+                stateError.innerHTML = 'Field should not be empty';
+                return false;
+            }
+            stateError.innerHTML = ''
+            return true;
+        }
+
+        function addressvalidation(){
+
+            var address = document.getElementById('address').value
+            if(address==''){
+                addressError.innerHTML = 'Field should not be empty';
+                return false;
+            }
+            addressError.innerHTML = ''
+            return true;
+        }
+
+        function countryvalidation(){
+
+            var country = document.getElementById('country').value
+            if(country==''){
+                countryError.innerHTML = 'Field should not be empty';
+                return false;
+            }
+            countryError.innerHTML = ''
+            return true;
+        }
+
+        function formvalidation(){
+            console.log('wkldfklwdnfklwahdflnwdsfklsafdbaklwdfbwdlb;lk')
+            if(!namevalidation() || !emailvalidation() || !numbervalidation() || !pinvalidation() || !countryvalidation() ||
+               !statevalidation() || !cityvalidation() || !addressvalidation() ){
+                /*formError.innerHTML = 'Fill all the fields';*/
+                swal('alert','All fields are required')
+                return false;
+            }
+
+        }
+    </script>
+
+    
+    {% endblock scripts %}
+        
+
+
