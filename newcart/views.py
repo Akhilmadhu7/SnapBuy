@@ -124,6 +124,7 @@ def inc_cartq(request,id):          #TO INCREASE THE CART PRODUCT QUANTITY
             cart_items.quantity += 1
             cart_items.save()
         except:
+            cart = Cart.objects.create(cartid = _cart_id_(request))
             cart_items = CartItem.objects.create(
                 product=product_obj, cart = cart, quantity =1
             )  
