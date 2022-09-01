@@ -190,11 +190,11 @@
                                             <div>
                                                 {% if products.stock > 1 %}
                                                 {% if not cartitem %}
-                                                <a href="{% url 'increase-cartq' products.id %}" class="button extra-small button-black" tabindex="-1">
+                                                <a href="{% url 'addtocart' products.id %}" class="button extra-small button-black" tabindex="-1">
                                                     <span class="text-uppercase">Add To Cart</span>
                                                 </a>
                                                 {% else %}
-                                                <a href="{% url 'increase-cartq' products.id %}" class="button extra-small button-black" tabindex="-1">
+                                                <a href="{% url 'cart_view'  %}" class="button extra-small button-black" tabindex="-1">
                                                     <span class="text-uppercase">View Cart</span>
                                                 </a>
                                                 {% endif %}

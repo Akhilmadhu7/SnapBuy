@@ -58,10 +58,10 @@ def addcartview(request,pro_id):        #ADD TO CART FUNCTION
             cart_items = CartItem.objects.get(
                 product=product_obj, user = request.user
             )
-            if cart_items:
-                cart_items.delete()
-                # cart_items.quantity += 1
-                # cart_items.save()
+            # if cart_items:
+            #     cart_items.delete()
+            cart_items.quantity += 1
+            cart_items.save()
 
         except:
             cart_items = CartItem.objects.create(
@@ -82,10 +82,10 @@ def addcartview(request,pro_id):        #ADD TO CART FUNCTION
            cart_items = CartItem.objects.get(
             cart = cart,  product = product_obj
             )
-           if cart_items:
-              cart_items.delete()
-        #    cart_items.quantity += 1
-        #    cart_items.save()
+        #    if cart_items:
+        #       cart_items.delete()
+           cart_items.quantity += 1
+           cart_items.save()
 
         except CartItem.DoesNotExist:
            cart_items = CartItem.objects.create(
@@ -96,8 +96,8 @@ def addcartview(request,pro_id):        #ADD TO CART FUNCTION
            cart_items.save()
 
      
-    # return redirect(cart_view)
-    return redirect('products_list',id=cat_id)
+    return redirect(cart_view)
+    # return redirect('products_list',id=cat_id)
     
 
     
@@ -128,7 +128,8 @@ def inc_cartq(request,id):          #TO INCREASE THE CART PRODUCT QUANTITY
             cart_items = CartItem.objects.create(
                 product=product_obj, cart = cart, quantity =1
             )  
-            cart_items.save()    
+            cart_items.save()  
+                     
 
     return redirect(cart_view)
 
