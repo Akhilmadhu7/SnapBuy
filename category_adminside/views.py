@@ -7,12 +7,13 @@ from django.core.exceptions import ObjectDoesNotExist
 # from userhome.models import Customuser
 from . models import Category,Product,Banner, ProductOffer
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 
 
 # Create your views here.
 
-
+login_required(login_url='adminlog')
 def banner_view(request):
     try:
         banner = Banner.objects.all()
@@ -24,6 +25,7 @@ def banner_view(request):
     return render(request,'cat_adminside/banner.html',context)
 
 
+login_required(login_url='adminlog')
 def add_banner(request):
 
     banner = Banner()
@@ -49,7 +51,7 @@ def add_banner(request):
     return render(request,'cat_adminside/addbanner.html')
 
 
-
+login_required(login_url='adminlog')
 def edit_banner(request,id):
 
     try:
@@ -87,10 +89,13 @@ def delete_banner(request,id):
     return redirect(banner_view)
 
 
+
 def search_product_view(request):
     return render(request)
 
 
+
+login_required(login_url='adminlog')
 def category_view(request):
 
     categories = Category.objects.all()
@@ -98,7 +103,7 @@ def category_view(request):
     return render(request,'cat_adminside/ad_categories.html',{'categories':categories})
 
     
-
+login_required(login_url='adminlog')
 def addcategory_view(request):
 
     category = Category()
@@ -131,6 +136,7 @@ def addcategory_view(request):
 
 
 
+login_required(login_url='adminlog')
 def editcategory_view(request,id):
 
     category = Category.objects.get(id = id)
@@ -166,7 +172,7 @@ def category_delete_view(request,id):
     return redirect(category_view) 
 
 
-
+login_required(login_url='adminlog')
 def productlist_view(request,id):
 
     try:
@@ -181,6 +187,7 @@ def productlist_view(request,id):
 
 
 
+login_required(login_url='adminlog')
 def productdetails_view(request,id,offer=None):
 
     prod_details = Product.objects.get(id = id)
@@ -196,7 +203,7 @@ def productdetails_view(request,id,offer=None):
 
 
 
-
+login_required(login_url='adminlog')
 def addproduct_view(request):
 
     categorys = Category.objects.all()
@@ -253,6 +260,7 @@ def addproduct_view(request):
 
     
 
+login_required(login_url='adminlog')
 def editproduct_view(request,id):
 
     categorys = Category.objects.all()

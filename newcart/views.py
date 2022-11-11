@@ -21,6 +21,7 @@ def _cart_id_(request):                 ####CREATE CARTID FOR GUEST USERS
     if not cart:
         cart = request.session.create()
     return cart   
+    
 
 def couponprice(request,total):         #CALCULATE TOTAL PRICE AFTER APPLYING COUPON
 
@@ -286,6 +287,7 @@ def checkout_view(request,total=0,quantity=0,cart_items=0):
 
 
 
+@login_required(login_url='userlog')
 def makepayment(request,total=0,quantity=0,cart_items=0):
 
 
@@ -359,6 +361,8 @@ def makepayment(request,total=0,quantity=0,cart_items=0):
 
     return render(request,'cartapps/placeorder.html',context)
 
+
+@login_required(login_url='userlog')
 def checkout_addaddress(request):
 
 
@@ -585,12 +589,12 @@ def invoice_view(request,a=0,b=0,coupon=0):
         order = OrderProduct.objects.filter(order = orders)
         
         for o in order:
-            a += o.product.price
+            a += o.product.price * o.quantity
           
             if o.product.discount_price:
-                b += o.product.discount_price
+                b += o.product.discount_price * o.quantity
             else:
-                b += o.product.price    
+                b += o.product.price * o.quantity
                 
         discount = a-b
         coupon = b - int(orders.total_price)
@@ -630,20 +634,23 @@ def myorder_view(request):
 
 
 def orderinfo_view(request, id,a=0,b=0):        # a & b are variables to calculate the discount amount 
-
+    
     try:
         orders = Order.objects.get(id = id)
         orderproduct = OrderProduct.objects.filter(order = orders)
 
         for o in orderproduct:
-            a += o.product.price
+            a += o.product.price * o.quantity
             if o.product.discount_price:
-                b += o.product.discount_price
+                b += o.product.discount_price  * o.quantity
             else:
-                b += o.product.price    
-    
+                b = b + o.product.price * o.quantity   
+                print(b)
+        print(b)
         discount = a-b
-        coupon = b - int(orders.total_price) 
+        print(discount,'ddddd')
+        coupon = b  - int(orders.total_price) 
+        print(coupon)
     except:
         messages.error(request,'Order does not exist')   
         return redirect(myorder_view) 

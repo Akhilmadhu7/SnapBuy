@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.views.decorators.cache import cache_control
 from newcart.models import Cart, CartItem, Order, OrderProduct,Coupon,UsedCoupon
 from category_adminside.models import Product,ProductOffer,CategoryOffer,Category
+from django.contrib.auth.decorators import login_required
 from django.db.models import Sum,Count
 from django.utils import timezone
 import datetime 
@@ -123,7 +124,7 @@ def adminlogout_view(request):
     
      
 
-
+login_required(login_url='adminlog')
 def admincustomers_view(request):
     if request.user.is_superuser:
 
@@ -161,7 +162,7 @@ def blockuser(request,id):
 
  
 
-
+login_required(login_url='adminlog')
 def category_offer(request):
 
     cat_offer = CategoryOffer.objects.all()
@@ -172,7 +173,7 @@ def category_offer(request):
     return render(request,'cat_adminside/categoryoffer.html',context)
 
 
-
+login_required(login_url='adminlog')
 def add_catoffer(request):          #ADD CATEGORY OFFER
 
     category = Category.objects.all()
@@ -207,9 +208,9 @@ def add_catoffer(request):          #ADD CATEGORY OFFER
             messages.error(request,'Offer should between 1 and 100')
             return redirect(add_catoffer)
 
-        if valid_f > c:
-            messages.error(request,'Date should be current date or above')
-            return redirect(add_catoffer)
+        # if valid_f > c:
+        #     messages.error(request,'Date should be current date or above')
+        #     return redirect(add_catoffer)
 
         if valid_f > valid_t:
             messages.error(request,'From date should be less than To date')
@@ -232,7 +233,7 @@ def add_catoffer(request):          #ADD CATEGORY OFFER
     return render(request,'cat_adminside/addoffer.html',context)
 
 
-
+login_required(login_url='adminlog')
 def edit_catoffer(request,id):              #EDIT CATEGORY OFFER
 
     try:
@@ -288,6 +289,7 @@ def edit_catoffer(request,id):              #EDIT CATEGORY OFFER
 
 
 
+
 def delete_cat_offer(request,id):       #DELETE CATEGORY OFFER
 
     cat_offer = CategoryOffer.objects.get(id = id)
@@ -297,7 +299,7 @@ def delete_cat_offer(request,id):       #DELETE CATEGORY OFFER
     return redirect(category_offer)
 
 
-
+login_required(login_url='adminlog')
 def product_offer(request):         
 
     p_offer = ProductOffer.objects.all()
@@ -309,12 +311,12 @@ def product_offer(request):
     return render(request,'cat_adminside/productoffer.html',context)
 
 
-
+login_required(login_url='adminlog')
 def add_prodoffer(request):             #ADD PRODUCT OFFEER
 
     product = Product.objects.all()
 
-    c = datetime.datetime.now(tz_india).strftime("%d/%m/%Y, %H:%M")   #GETTING CURRENT TIME
+    c = datetime.datetime.now(tz_india).strftime("%d/%m/%Y, %H:%M:%S")   #GETTING CURRENT TIME
     print(' current date ===================   ',c)
 
     if request.method == 'POST':
@@ -340,11 +342,11 @@ def add_prodoffer(request):             #ADD PRODUCT OFFEER
         if int(offer) > 100 or int(offer) < 0:
             messages.error(request,'Offer should between 1 and 100')
             return redirect(add_prodoffer)
-
-        if valid_f > c:
-            print(valid_f,'========',c)
-            messages.error(request,'Date should be current date or above')
-            return redirect(add_prodoffer)
+        print(type(c),'qqqqqqqqqqqqq',type(valid_f))
+        # if valid_f > c:
+        #     print(valid_f,'========',c)
+        #     messages.error(request,'Date should be current date or above')
+        #     return redirect(add_prodoffer)
 
         if valid_f > valid_t:
             messages.error(request,'From date should be less than To date')
@@ -368,7 +370,7 @@ def add_prodoffer(request):             #ADD PRODUCT OFFEER
 
 
 
-
+login_required(login_url='adminlog')
 def edit_prodoffer(request,id):
 
     try:
@@ -432,7 +434,7 @@ def delete_prod_offer(request,id):              #DELETE PRODUCT OFFER
     return redirect(product_offer)
     
 
-
+login_required(login_url='adminlog')
 def coupon_view(request):
 
     coupon = Coupon.objects.all()
@@ -442,6 +444,7 @@ def coupon_view(request):
     return render(request,'cat_adminside/coupon.html',context) 
 
 
+login_required(login_url='adminlog')
 def add_coupon(request):
 
     if request.method == 'POST':
@@ -468,6 +471,7 @@ def add_coupon(request):
   
 
     return render(request,'cat_adminside/couponadd.html')
+
 
 def block_coupon(request,id):
 
@@ -496,6 +500,7 @@ def coupon_delete(request,id):
     return redirect(coupon_view)
 
 
+login_required(login_url='adminlog')
 def used_coupon(request):
 
     usedcoupon = UsedCoupon.objects.all()
@@ -503,6 +508,7 @@ def used_coupon(request):
         'usedcoupon':usedcoupon
     }
     return render(request,'cat_adminside/usedcoupon.html',context)
+
 
 
 def delete_usedcoupon(request,id):
@@ -513,7 +519,7 @@ def delete_usedcoupon(request,id):
     return redirect(used_coupon)
 
 
-
+login_required(login_url='adminlog')
 def order_admin_view(request):
     # cartitems = CartItem.objects.all()
     # customer = Customuser.objects.all()
@@ -534,7 +540,7 @@ def order_admin_view(request):
     return render(request,'cat_adminside/order.html',context)
 
 
-
+login_required(login_url='adminlog')
 def orderdetails_view(request, id):
     
     # productobj = Product.objects.get(id = id)
@@ -567,6 +573,7 @@ def orderstatus_view(request, id):
     return redirect(order_admin_view)
 
 
+login_required(login_url='adminlog')
 def sales_view(request):
 
     try:

@@ -31,93 +31,98 @@ def userlog_view(request):
         password = request.POST.get('password')
 
         user = authenticate(phone_number=phone_number, password=password)
-
-        active_user = Customuser.objects.get(phone_number=phone_number)
-
-        if active_user.is_active==True:
-
-            if user is not None:
-
-                try:
-                    cart = Cart.objects.get(cartid = _cart_id_(request))
-                   
-                    cart_items_eixsts = CartItem.objects.filter(cart = cart).exists()
-
-                    if cart_items_eixsts:
-                        
-                        cart_items = CartItem.objects.filter(cart=cart)
-                        user_carts = CartItem.objects.filter(user = user)
-                        
-                        
-                        for cart_item in cart_items:
-                          
-                            item = 0
-                            if user_carts:
-                                for user_cart in user_carts:  #check each item in user item
-
-                                    if cart_item.product == user_cart.product:  #check wheather the same product in user cart and session cart item product exists
-                                        user_cart.quantity += cart_item.quantity  # then session cart item product save to user cart item product and increase the quantity of the product
-                                        cart_item.delete()  # deleting the cart item created by the session
-                                        user_cart.save()    # saving the product to the user cart 
-
-                                        item = 1
-                                        break
-                                    if item == 0:
-                                    
-                                        cart_item.user = user # adding the cart item to the user cart
-                                        cart_item.save()
-                                        
-                            else:
-                                cart_item.user = user # if no carts in user , then it will add the cartitems to usercart.
-                                cart_item.save()
-
+     
+        try:
+            active_user = Customuser.objects.get(phone_number=phone_number)
                 
-                except:
-                    pass  
-
-                try: 
-                    wishlist = Wishlist.objects.get(wishlistid = _wishid_(request)) 
-                    wishitem = WishlistItem.objects.filter(wishlist = wishlist).exists()
-
-                    if wishitem:
-
-                        wishitem = WishlistItem.objects.filter(wishlist = wishlist)    #if wishlistitem exists of guest user
-                        userwish = WishlistItem.objects.filter(user = user)             # if wishlistitem exists of user
-
-                        for w_item in wishitem:
-
-                            if userwish:  
-
-                                for u_item in userwish:
-
-                                    if w_item.product == u_item.product:    #checking wishlistitem product and userwishlist item product are same
-                                       
-                                        w_item.delete()     #then wishlistitem deletes  and saves the user wishlistitem product
-                                        u_item.save()
-                                        break
-                                    else:
-                                        w_item.user = user    # if the products are not same, then user will assign to the wishlist item and save the product
-                                        w_item.save()
-                            else:
-                                w_item.user = user
-                                w_item.save()         
-
-
-                except:
-                    pass 
             
-                request.session['phone_number']=phone_number
-                login(request,user)
 
-                return redirect(index_view)
-                # return redirect(otpverify)
+            if active_user.is_active==True:
+
+                if user is not None:
+
+                    try:
+                        cart = Cart.objects.get(cartid = _cart_id_(request))
+                    
+                        cart_items_eixsts = CartItem.objects.filter(cart = cart).exists()
+
+                        if cart_items_eixsts:
+                            
+                            cart_items = CartItem.objects.filter(cart=cart)
+                            user_carts = CartItem.objects.filter(user = user)
+                            
+                            
+                            for cart_item in cart_items:
+                            
+                                item = 0
+                                if user_carts:
+                                    for user_cart in user_carts:  #check each item in user item
+
+                                        if cart_item.product == user_cart.product:  #check wheather the same product in user cart and session cart item product exists
+                                            user_cart.quantity += cart_item.quantity  # then session cart item product save to user cart item product and increase the quantity of the product
+                                            cart_item.delete()  # deleting the cart item created by the session
+                                            user_cart.save()    # saving the product to the user cart 
+
+                                            item = 1
+                                            break
+                                        if item == 0:
+                                        
+                                            cart_item.user = user # adding the cart item to the user cart
+                                            cart_item.save()
+                                            
+                                else:
+                                    cart_item.user = user # if no carts in user , then it will add the cartitems to usercart.
+                                    cart_item.save()
+
+                    
+                    except:
+                        pass  
+
+                    try: 
+                        wishlist = Wishlist.objects.get(wishlistid = _wishid_(request)) 
+                        wishitem = WishlistItem.objects.filter(wishlist = wishlist).exists()
+
+                        if wishitem:
+
+                            wishitem = WishlistItem.objects.filter(wishlist = wishlist)    #if wishlistitem exists of guest user
+                            userwish = WishlistItem.objects.filter(user = user)             # if wishlistitem exists of user
+
+                            for w_item in wishitem:
+
+                                if userwish:  
+
+                                    for u_item in userwish:
+
+                                        if w_item.product == u_item.product:    #checking wishlistitem product and userwishlist item product are same
+                                        
+                                            w_item.delete()     #then wishlistitem deletes  and saves the user wishlistitem product
+                                            u_item.save()
+                                            break
+                                        else:
+                                            w_item.user = user    # if the products are not same, then user will assign to the wishlist item and save the product
+                                            w_item.save()
+                                else:
+                                    w_item.user = user
+                                    w_item.save()         
+
+
+                    except:
+                        pass 
+                
+                    request.session['phone_number']=phone_number
+                    login(request,user)
+
+                    return redirect(index_view)
+                    # return redirect(otpverify)
+
+                else:
+                    messages.error(request,'Invalid Details')
+                    return redirect(userlog_view)  
 
             else:
-                 messages.error(request,'Invalid Details')
-                 return redirect(userlog_view)  
-
-        else:
-            messages.error(request,'Account is blocked')
+                messages.error(request,'Account is blocked')
+        except:
+            messages.error(request,'Enter credentials')        
 
 
     return render(request,'userside/userlogin.html')
@@ -160,7 +165,7 @@ def otpverify(request,phone_number):
 
             otp_input   = request.POST.get('otp')
             print(otp_input)
-            print('aaaahdfvasvfvhjnsbdjhf ljsnd')
+            
             if len(otp_input)>0:
                 account_sid = settings.ACCOUNT_SID
                 auth_token = settings.AUTH_TOKEN
