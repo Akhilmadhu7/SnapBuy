@@ -597,6 +597,7 @@ def invoice_view(request,a=0,b=0,coupon=0):
                 b += o.product.price * o.quantity
                 
         discount = a-b
+        print('discount',discount)
         coupon = b - int(orders.total_price)
 
     except:
@@ -613,14 +614,18 @@ def invoice_view(request,a=0,b=0,coupon=0):
     return render(request,'cartapps/invoice.html',context)
 
 
-
+#show my total orders list.
 def myorder_view(request):
-
-    try:
-        order = Order.objects.filter(user = request.user).order_by('-created_at')
-        # orderproduct = OrderProduct.objects.filter(order__in = order)
-    except:
-        pass
+    if request.user.is_authenticated:
+        try:
+            order = Order.objects.filter(user = request.user).order_by('-created_at')
+            
+            # orderproduct = OrderProduct.objects.filter(order__in = order)
+        except Order.DoesNotExist:
+            messages.error(request,'Something went wrong')
+            return redirect('userindex')
+    else:
+        return render(request,'cartapps/view_order.html')      
 
     context = {
         'order':order,

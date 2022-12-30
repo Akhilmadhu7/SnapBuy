@@ -91,7 +91,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th class="product-price">Order ID</th>
-                                                            <th class="product-thumbnail">product</th>
+                                                            <th class="product-thumbnail">Address</th>
                                                             <th class="product-price">Total price</th>
                                                             <th class="product-quantity">Purchased On</th>
                                                             <th class="product-subtotal">Status</th>
@@ -108,25 +108,11 @@
                                                             
                                                         <tr>
                                                             <td class="product-price">{{item.id}}</td>
-                                                            <td class="product-thumbnail">
-                                                                
-                                                                <div class="pro-thumbnail-img">
-                                                                    <img src="{{ item.product.productimage.url }}" alt="">
-                                                                </div>
-                                                                <div class="pro-thumbnail-info text-left">
-                                                                    <h6 class="product-title-2">
-                                                                        <a href="#">{{item.product.product_name}}</a>
-                                                                    </h6>
-                                                                    <p>Brand: {{item.product.brand_name}}</p>
-                                                                    <p>Ram: {{item.product.ram}}</p>
-                                                                    <p>Storage: {{item.product.storage}}</p>
-                                                                    <p> Color: {{item.product.color}}</p>
-                                                                </div>
-                                                                    
-                                                                
-                                                                    
-                                                                
+                                                            <td class="">
+                                                                <p>{{item.customername}}</p>
+                                                                    <p>{{item.address}}</p>
                                                             </td>
+                                                            
                                                             <td class="product-price">{{item.grandtotal}}</td>
                                                           <td class="product-quantity">{{item.created_at}}</td>
                                                           

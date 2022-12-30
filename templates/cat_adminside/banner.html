@@ -51,14 +51,9 @@
                                     <table id="ecommerce-product-list" class="table  table-bordered">
                                         <thead>
                                             <tr>
-                                                <th>ID</th>
-                                                <th>Image</th>
-                                                <th>title</th>
-                                                <!-- <th>Product List</th> -->
-                                                <!-- <th>Category</th> -->
-                                                <!-- <th>Sku</th> -->
-                                                <!-- <th>Price</th> -->
-                                                <th>View Products</th>
+                                                <th class="text-center">ID</th>
+                                                <th class="text-center">Image</th>
+                                                <th class="text-center">title</th>
                                                 <th class="align-center">Edit</th>
                                                 <th class="align-center">Action</th>
                                             </tr>
@@ -70,34 +65,11 @@
                                            
                                                 
                                             <tr>
-                                                <td>{{b.id}}</td>
+                                                <td class="text-center">{{b.id}}</td>
                                                 <td class="text-center">
                                                 <a class="product-list-img" href="javascript: void(0);"><img src="{{ b.bannerimage.url }}" alt="product"></a></td>
-                                                <td>{{ b.title }}</td>
-                                                <td>
-                                                    <a href="{% url 'productlist' b.id %}"><button type="button" class="btn btn-primary">View Banner</button></a>
-                                                    <div class="modal" tabindex="-1">
-                                                        <div class="modal-dialog">
-                                                          <div class="modal-content">
-                                                            <div class="modal-header">
-                                                              <h5 class="modal-title">Modal title</h5>
-                                                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <!-- <div class="modal-body">
-                                                              <p>Modal body text goes here.</p>
-                                                            </div> -->
-                                                            <div class="modal-footer">
-                                                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                              <button type="button" class="btn btn-primary">Save changes</button>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                </td>
-                                                <!-- <td>Glasses</td> -->
-                                                <!-- <td>ITEM-0001</td> -->
-                                                <!-- <td>$120.00</td> -->
-                                                <!-- <td>80,000</td> -->
+                                                <td class="text-center">{{ b.title }}</td>
+                                               
                                                 <td class="text-center"> 
                                                     <a href="{% url 'banner-edit' b.id %}"><button type="button" class="btn btn-primary">Edit</button></a>
                                                 </td>

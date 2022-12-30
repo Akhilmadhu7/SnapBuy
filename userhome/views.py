@@ -129,8 +129,6 @@ def userlog_view(request):
 
 
 def phonelogin(request):
-
-
     if request.method == 'POST':
         phone_number = request.POST['phone_number']
         phone_no="+91" + phone_number
