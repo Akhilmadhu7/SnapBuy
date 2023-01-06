@@ -33,9 +33,6 @@ class Product(models.Model):
     description     = models.TextField()
     discount_price  = models.PositiveIntegerField(null=True,blank=True)
 
-    
-    
-
 
     def __str__(self):
         return self.product_name  
@@ -60,7 +57,6 @@ class ProductOffer(models.Model):
     valid_from = models.DateTimeField()
     valid_to = models.DateTimeField()
 
-    
 
     def __str__(self):
         return self.product.product_name
@@ -73,7 +69,6 @@ class CategoryOffer(models.Model):
     valid_from = models.DateTimeField()
     valid_to = models.DateTimeField()
     
-
 
     def __str__(self):
         return self.category.title

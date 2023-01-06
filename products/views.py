@@ -33,6 +33,8 @@ def productlist_view(request,id,cf= 0,of=None):
             ct = CategoryOffer.objects.get(category = id)
             
             a = ct.valid_to.strftime("%d/%m/%Y, %H:%M:%S")
+            print('aaaaa',a)
+            print('ccccc',c)
             
             if ct.valid_to.strftime("%d/%m/%Y, %H:%M:%S") > c:
                 

@@ -46,60 +46,29 @@
                                 <div class="row">
                                     <div class="col-xl-4 col-lg-4 col-md-12 text-center">
                                         <div class="product-img">
-                                            <img src="assets/img/320x320.jpg" alt="img">
+                                            <img src="{{ product.productimage.url }}" alt="img">
                                         </div>
                                         <div class="d-flex thumbs-img mt-4 justify-content-center">
                                             <div class="mr-2">
-                                                <img src="assets/img/320x320.jpg" alt="img">
+                                                <img src="{{ product.image1.url }}" alt="img">
                                             </div>
                                             <div class="mr-2">
-                                                <img src="assets/img/320x320.jpg" alt="img">
+                                                <img src="{{ product.image2.url }}" alt="img">
                                             </div>
-                                            <div class="mr-2">
-                                                <img src="assets/img/320x320.jpg" alt="img">
-                                            </div>
-                                            <div class="file-input position-relative">
-                                                <i class="flaticon-circle-plus"></i>
-                                                <input type="file">
-                                            </div>
+                                            
+                                            
                                         </div>
                                     </div>
                                     <div class="col-xl-8 col-lg-8 col-md-12">
                                         <form class="form-horizontal" action="#" method="POST">
                                             {% csrf_token %}
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <label class="col-md-5">Attribute Set :</label>
-                                                    <div class="col-md-7">
-                                                        <select class="form-control form-custom" name="attribute_set">
-                                                            <option value="opt1">Default</option>
-                                                            <option value="opt2">Furniture</option>
-                                                            <option value="opt3">Shoes</option>
-                                                            <option value="opt4">Cell Phones</option>
-                                                            <option value="opt5">Monitors</option>
-                                                            <option value="opt6">Clothing</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div><br>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <label class="col-md-5">Product Type :</label>
-                                                    <div class="col-md-7">
-                                                        <select class="form-control form-custom" name="product">
-                                                            <option value="opt1">Simple Product</option>
-                                                            <option value="opt2">Configurable Product</option>
-                                                            <option value="opt3">Bundle Product</option>
-                                                            <option value="opt4">Grouped Product</option>
-                                                            <option value="opt5">Virtual Product</option>
-                                                            <option value="opt6">Downloadable Product</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div><br>
-                                            <div class="align-center"> 
-                                                <input value="Continue" class="btn" type="submit">
+                                            <div>
+                                                <h1>
+                                                    {{product.product_name}}
+                                                </h1>
                                             </div>
+                                            
+                                            
                                         </form>
                                     </div>
                                 </div>
@@ -314,14 +283,14 @@
                                                                 </div>
                                                             </div>
 
-                                                            <div class="form-group mt-4">
+                                                            <!-- <div class="form-group mt-4">
                                                                 <div class="row">
                                                                     <label class="col-md-4">Discount Price :</label>
                                                                     <div class="col-md-8">
                                                                         <input class="form-control" value="{{product.discount_price}}" name="discount" type="text">
                                                                     </div>
                                                                 </div>
-                                                            </div>
+                                                            </div> -->
 
                                                             <div class="align-center">
                                                                 <button type="submit" class="btn btn-primary mt-2 ms-5 ">Submit</button>
@@ -335,7 +304,7 @@
                                         </div>
                                     </div>
                                     
-                                    <div class="col-xl-5 col-md-12">
+                                    <!-- <div class="col-xl-5 col-md-12">
                                         <div class="card card-default">
                                             <div class="card-heading"><h2 class="card-title"><span>PRICING</span></h2></div>
                                             <div class="card-body">
@@ -434,7 +403,6 @@
                                                         </div>
                                                     </div>
                                                     <div class="align-center"> 
-                                                        <!-- <input value="Insert Product" class="btn" type="submit"> -->
                                                         <button type="submit" class="btn btn-primary mt-2 ms-5 ">Add product</button>
                                                         
                                                         
@@ -446,13 +414,8 @@
 
 
                                         </div>
-                                        <!-- <div class="align-center">  -->
-                                            <!-- <input value="Insert Product" class="btn" type="submit"> -->
-                                            <!-- <button type="submit" class="btn btn-primary mt-2 ms-5 ">Add product</button> -->
-                                            
-                                            
-                                        <!-- </div> -->
-                                    </div>
+                                        
+                                    </div> -->
                                 </div>
                             </div>
                         </div>

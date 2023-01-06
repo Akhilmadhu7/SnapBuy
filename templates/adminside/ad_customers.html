@@ -97,7 +97,7 @@
                                                         {% if user.is_active %}
                                                         <a href="{% url 'blockuser' user.id %}">
                                                         
-                                                        <button onclick="return checkit()" class="btn btn-danger">
+                                                        <button onclick="return confirm('Are you sure to unblock this customer ?')" class="btn btn-danger">
                                                             <span class="label label-success">Block</span>
                                                         </button></a>
                                                         
@@ -373,14 +373,14 @@
 
         });*/
 
-        function checkit(){
+        /*function checkit(){
             console.log('asasasasasasasaasdfnfgaifgbno')
             swal("Are you sure you want to do this?", {
                 buttons: ["Oh noez!", "Aww yiss!"],
               });
               
 
-        }
+        }*/
     </script>
         
     {% endblock  %}

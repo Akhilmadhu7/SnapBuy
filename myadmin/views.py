@@ -127,13 +127,13 @@ def adminlogout_view(request):
 login_required(login_url='adminlog')
 def admincustomers_view(request):
     if request.user.is_superuser:
-
-        user = Customuser.objects.exclude(username='akhilmadhu')
+        user_phone = Customuser.objects.get(username = request.user)
+        customers = Customuser.objects.exclude(phone_number=user_phone.phone_number)
     else:
         return redirect(adminlog_view)    
 
     
-    return render(request,'adminside/ad_customers.html',{'userlist':user})     
+    return render(request,'adminside/ad_customers.html',{'userlist':customers})     
 
 
 
@@ -190,8 +190,8 @@ def add_catoffer(request):          #ADD CATEGORY OFFER
         valid_f = request.POST.get('from')
         valid_t = request.POST.get('to')
 
-            # validf = valid_f.strftime("%d/%m/%Y, %H:%M")
-            # validt = valid_t.strftime("%d/%m/%Y, %H:%M")
+        # validf = valid_f.strftime("%d/%m/%Y, %H:%M")
+        # validt = valid_t.strftime("%d/%m/%Y, %H:%M")
 
         print('validf  ========',valid_f,'     validto =====   ',valid_t,'     offer========  ',offer)
 
@@ -248,15 +248,19 @@ def edit_catoffer(request,id):              #EDIT CATEGORY OFFER
         try:
             categorys = request.POST.get('category')
             catoffer.offer = request.POST.get('offer')
-
             catoffer.valid_from = request.POST.get('from')
             catoffer.valid_to = request.POST.get('to')
+
+            # valid_f = request.POST.get('from')
+            # valid_t = request.POST.get('to')
+             
+             
             
             # catoffer.valid_from = valid_f.strftime("%d/%m/%Y, %H:%M")
             # catoffer.valid_to = valid_t.strftime("%d/%m/%Y, %H:%M")
 
             catoffer.category = Category.objects.get(id=categorys)
-
+            print('catoffer.category',catoffer.category)
             if int(catoffer.offer) > 100 or int(catoffer.offer) < 0:
                 messages.error(request,'Offer should between 1 and 100')
                 return redirect(edit_catoffer,id)
@@ -265,16 +269,16 @@ def edit_catoffer(request,id):              #EDIT CATEGORY OFFER
                 messages.error(request,'From date should be less than To date')
                 return redirect(edit_catoffer,id)    
             
-            if catoffer.valid_from  >= a:
-                
-                messages.error(request,'From date should not be less than previous date')
-                return redirect(edit_catoffer,id)
+            # if catoffer.valid_from  >= a:
+            #     print('valid from and previous date',catoffer.valid_from,'to',a)
+            #     messages.error(request,'From date should not be less than previous date')
+            #     return redirect(edit_catoffer,id)
 
             else:
                 
                 catoffer.save()
 
-                messages.success(request,'Category offer added succesfully')
+                messages.success(request,'Category offer edited succesfully')
                 return redirect(category_offer)    
 
         except:
@@ -403,10 +407,10 @@ def edit_prodoffer(request,id):
                 messages.error(request,'From date should be less than To date')
                 return redirect(edit_prodoffer,id)    
 
-            if p_offer.valid_from >= a:
-                print(p_offer.valid_from,'============',a)
-                messages.error(request,'From date should not be less than previous date')
-                return redirect(edit_prodoffer,id)
+            # if p_offer.valid_from >= a:
+            #     print(p_offer.valid_from,'============',a)
+            #     messages.error(request,'From date should not be less than previous date')
+            #     return redirect(edit_prodoffer,id)
 
             else:
                 

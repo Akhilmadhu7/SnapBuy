@@ -84,12 +84,22 @@
                                                             <div class="row">
                                                                 <label class="col-md-4">Valid From :</label>
                                                                 <div class="col-md-8">
-                                                                    <input 
+                                                                    
+                                                                    <!-- <input 
                                                                     
                                                                      >
                                                                     <br>
                                                                     <input type="datetime-local" value="{{catoffer.valid_from}}"  name="from">
+                                                                    <span class="text-danger" id="desc-error" ></span> -->
+                                                                    {% if catoffer %}
+                                                                    <input name="from" type="" value="{{catoffer.valid_from}}">
+                                                                    <br>
+                                                                    <input type="datetime-local" name="from">
                                                                     <span class="text-danger" id="desc-error" ></span>
+                                                                    {% else %}
+                                                                    <input type="datetime-local" name="from">
+                                                                    <span class="text-danger" id="desc-error" ></span>
+                                                                    {% endif %}
                                                                 </div>
                                                             </div>
                                                         </div>
