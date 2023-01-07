@@ -20,8 +20,8 @@ from newcart.views import _cart_id_
 from products.models import Wishlist,WishlistItem
 from products.views import _wishid_
 
-# Create your views here.
 
+#login fucntion.
 @cache_control(no_cache = True, must_revalidate = True, no_store = True)
 def userlog_view(request):
 
@@ -29,31 +29,22 @@ def userlog_view(request):
 
         phone_number = request.POST.get('phone_number')
         password = request.POST.get('password')
-
         user = authenticate(phone_number=phone_number, password=password)
      
         try:
             active_user = Customuser.objects.get(phone_number=phone_number)
-                
-            
-
             if active_user.is_active==True:
 
                 if user is not None:
-
                     try:
                         cart = Cart.objects.get(cartid = _cart_id_(request))
-                    
                         cart_items_eixsts = CartItem.objects.filter(cart = cart).exists()
 
                         if cart_items_eixsts:
-                            
                             cart_items = CartItem.objects.filter(cart=cart)
                             user_carts = CartItem.objects.filter(user = user)
                             
-                            
                             for cart_item in cart_items:
-                            
                                 item = 0
                                 if user_carts:
                                     for user_cart in user_carts:  #check each item in user item
@@ -66,15 +57,11 @@ def userlog_view(request):
                                             item = 1
                                             break
                                         if item == 0:
-                                        
                                             cart_item.user = user # adding the cart item to the user cart
-                                            cart_item.save()
-                                            
+                                            cart_item.save()        
                                 else:
                                     cart_item.user = user # if no carts in user , then it will add the cartitems to usercart.
                                     cart_item.save()
-
-                    
                     except:
                         pass  
 
@@ -83,16 +70,12 @@ def userlog_view(request):
                         wishitem = WishlistItem.objects.filter(wishlist = wishlist).exists()
 
                         if wishitem:
-
                             wishitem = WishlistItem.objects.filter(wishlist = wishlist)    #if wishlistitem exists of guest user
                             userwish = WishlistItem.objects.filter(user = user)             # if wishlistitem exists of user
 
                             for w_item in wishitem:
-
                                 if userwish:  
-
                                     for u_item in userwish:
-
                                         if w_item.product == u_item.product:    #checking wishlistitem product and userwishlist item product are same
                                         
                                             w_item.delete()     #then wishlistitem deletes  and saves the user wishlistitem product
@@ -104,8 +87,6 @@ def userlog_view(request):
                                 else:
                                     w_item.user = user
                                     w_item.save()         
-
-
                     except:
                         pass 
                 
@@ -127,7 +108,7 @@ def userlog_view(request):
 
     return render(request,'userside/userlogin.html')
 
-
+#fot otp 
 def phonelogin(request):
     if request.method == 'POST':
         phone_number = request.POST['phone_number']
@@ -143,16 +124,13 @@ def phonelogin(request):
                 .verifications \
                 .create(to=phone_no ,channel='sms')
             return render(request,'userside/otp.html',{'phone_number':phone_number})
-            
-            
-
         else:
             messages.info(request,'invalid Mobile number')
             return redirect(phonelogin)
 
     return render(request,'userside/phonelogin.html')
 
-
+#verify otp number
 def otpverify(request,phone_number):
 
     print('aaaahdfvasvfvhjnsbdjhf ljsnd')
@@ -180,13 +158,10 @@ def otpverify(request,phone_number):
                     return redirect(index_view)
                 else:
                     messages.error(request,'Invalid OTP')
-                    return render(request,'userside/otp.html',{'phone_number':phone_number})
-
-                   
+                    return render(request,'userside/otp.html',{'phone_number':phone_number})    
             else:
                 messages.error(request,'Invalid OTP')
                 return render(request,'userside/otp.html',{'phone_number':phone_number})
-
         else:
 
             messages.error(request,'Invalid Phone number')
@@ -196,7 +171,7 @@ def otpverify(request,phone_number):
 
 
 
-
+#home view funciton.
 # @cache_control(no_cache = True, must_revalidate = True, no_store = True)
 def index_view(request):
 
@@ -212,12 +187,9 @@ def index_view(request):
             newproduct = Product.objects.filter(discount_price = 0).order_by('-id')[:8]
             bestsell = OrderProduct.objects.filter(product__gte =15).distinct()[1:16:2]
             offerproduct = Product.objects.exclude(discount_price = 0).order_by('discount_price')[:4]
-           
-                  
+                    
     except:
         pass
-  
-
     context = {
         'banner':banner,
         'category':category,
@@ -227,14 +199,12 @@ def index_view(request):
         'newproduct':newproduct,
         'bestsell':bestsell,
         'offerproduct':offerproduct,
-        'banners':banners,
-        
+        'banners':banners, 
     }
-    
     return render(request,'userside/index.html',context)
     # return redirect(userlog_view)        
 
-
+#logout function.
 def userlogout_view(request):
 
     if 'phone_number' in request.session:
@@ -243,29 +213,18 @@ def userlogout_view(request):
 
     return redirect(userlog_view)
 
-# def register_view(request):
-#     return render(request,'userside/register.html')
-
-
-
-
 
  ############################## USEER REGISTRATION ###########################################
-    
-
-
 
 def userregister_view(request):
 
     if request.method == 'POST':
-
+        #getting all details to register an account.
         phone_number =  request.POST.get('phone_number')
-
         email        =  request.POST.get('email')
         username     =  request.POST.get('username')
         password1    =  request.POST.get('password1')
         password2    =  request.POST.get('password2')
-
 
         username_pattern = "^[A-Za-z\s]{3,}$"       #USERNAME VERIFICATION
         username_verify = re.match(username_pattern,username)
@@ -274,23 +233,22 @@ def userregister_view(request):
             messages.error(request,'Name should contian only characters')
             return redirect(userregister_view)
 
+        #if another user with same username, then show error
         if Customuser.objects.filter(username=username):
             messages.error(request,'Username already exists') 
             return redirect(userregister_view)
 
-
         email_pattern = "^[a-zA-Z0-9-_]+@[a-zA-Z0-9]+\.[a-z]{2,3}$"     # EMAIL VERIFICATION 
         email_verify = re.match(email_pattern,email)
-
 
         if email_verify is None:
             messages.error(request,'Invalid Email')
             return redirect(userregister_view)
 
+        #if another user with same email, then show error
         if Customuser.objects.filter(email=email):
             messages.error(request,'Email already exists')
             return redirect(userregister_view)
-
 
         phone_pattern = '^\d{10}$'           # PHONE NUMBER VERIFICATION 
         phone_verify = re.match(phone_pattern, phone_number)  
@@ -299,11 +257,12 @@ def userregister_view(request):
             messages.error(request,'Invalid phone number')
             return redirect(userregister_view)
 
+        #if another user with same number exists, then show error
         if Customuser.objects.filter(phone_number=phone_number):
             messages.error(request,'Phone number already exists') 
             return redirect(userregister_view)  
 
-
+        #length of the password should not be less than 4 and empty.
         if password1 == "" or len(password1)<4:         # PASSWORD VERIFICATION 
             messages.error(request,'Password should contains atleast 5 letters')
             return redirect(userregister_view)
@@ -311,32 +270,25 @@ def userregister_view(request):
         if password1 != password2:
             messages.error(request,'Password incorrect')
             return redirect(userregister_view)
-
-
-
+        #if all the validations satisfy, the create an account.
         else:
-
             user = Customuser.objects.create_user(
                 phone_number=phone_number, 
                 email=email,
                 username=username, 
                 password=password1
                 )
-
             user.save()
-
             userprofile = UserProfile.objects.create(
                 user = user
             )
             userprofile.save()
             return redirect(userlog_view)
-
     return render(request,'userside/register.html')
 
 
-
+#create profile fucntion.
 def profile_view(request):
-
     # customuser = Customuser.objects.get(user = request.phone_number)
 
     profile = UserProfile.objects.get(user = request.user)
@@ -352,38 +304,34 @@ def profile_view(request):
     return render(request, 'userside/profile.html',context)
 
 
-
+#edit profile 
 def editprofile_view(request,id):
 
-    user = Customuser.objects.get(id=id)
-    
-    profiles = UserProfile.objects.all()
-    
-    
+    user = Customuser.objects.get(id=id)    #user
+    profiles = UserProfile.objects.all()    #user profile
 
     if request.method == 'POST':
         name = request.POST.get('name')
         phone_number = request.POST.get('phone_number')
         email = request.POST.get('email')
 
-        
         currentemail = user.email  #current email of the user
         curretnphone = user.phone_number  #current phone number of the user
         
         existemail = Customuser.objects.exclude(email = currentemail).filter(email = email)
         existphone = Customuser.objects.exclude(phone_number = curretnphone).filter(phone_number = phone_number)
 
-        
-
+        #if newly entered email or number is already user, then show error.
         if existemail == email or existphone == phone_number:
             messages.error(request,'exist')
             return render(request, 'userside/editprofile.html')
-
+        #if user only changed username, then this code will work.
         elif currentemail == email and curretnphone == phone_number:
             user.username = name
             messages.success(request,'Username changed succesfully')
             user.save()    
             return redirect(profile_view)
+        #if all data are new, then this code works.    
         else:
             user.username = name
             user.phone_number = phone_number
@@ -391,9 +339,6 @@ def editprofile_view(request,id):
             user.save() 
             messages.error(request,'Profile updated succesfully')
             return redirect(profile_view) 
-        
-       
-
     context = {
         'user':user,
         # 'profile':profile,
@@ -402,12 +347,11 @@ def editprofile_view(request,id):
     return render(request, 'userside/editprofile.html',context)    
 
 
-
-
+#add address fucntion.
 def add_addressview(request):
 
     if request.method == 'POST':
-
+        #getting all the details to add new address.
         user = request.user
         name = request.POST.get('name')
         email = request.POST.get('email')
@@ -421,63 +365,52 @@ def add_addressview(request):
         username_pattern = "^[A-Za-z\s]{3,}$"       #username verify pattern
         username_verify = re.match(username_pattern,name)
 
-
         if username_verify is None:  #
             messages.error(request,'Name should contian only characters')
             return redirect(add_addressview)
 
-
         email_pattern = "^[a-zA-Z0-9-_]+@[a-zA-Z0-9]+\.[a-z]{1,3}$"       #email verify pattern
         email_verify = re.match(email_pattern,email)
-
 
         if email_verify is None:
             messages.error(request,'Invalid Email')
             return redirect(add_addressview)
 
-
+        #create address, if validations are ok.
         addadress = AddAddress.objects.create(
-
                 user = user, name = name, email = email, newaddress = newaddress, city = city,
                 phonenumber = phonenumber, pincode = pincode, state = state, country = country
-
         )
-
         addadress.save()
-
         return redirect(profile_view)
-
 
     return render(request, 'userside/add_address.html')
 
-
+#edit password.
 def editpassword_view(request,id):
 
     user = Customuser.objects.get(id = id)
     if request.method == 'POST':
-        
-        oldpass = request.POST.get('oldpassword')
-        password1 = request.POST.get('password1')
-        password2 = request.POST.get('password2')
+        oldpass = request.POST.get('oldpassword') #old password
+        password1 = request.POST.get('password1') #new password
+        password2 = request.POST.get('password2') #new password confirmed
 
-        user = Customuser.objects.get(id = id)
-        phone = user.phone_number
-        check = user.check_password(oldpass)
+        user = Customuser.objects.get(id = id)  #user
+        phone = user.phone_number #
+        check = user.check_password(oldpass) #checking the oldpassword is correct or not
         
-        
-        if check == True:
-            
+        if check == True: #if the old passwrod is correct
             if password1 == "" or len(password1)<4:         # PASSWORD VERIFICATION 
                 messages.error(request,'Password should contain atleast 5 letters')
                 return render(request,'userside/editpassword.html')
 
+            #checking new password and cofirmation password are correctng.
             if password1 != password2:
                 messages.error(request,'Password not equal')
                 return render(request,'userside/editpassword.html')
-
+            #if validations are ok, then change password.    
             else:
-                
-                user.set_password(password1)
+                user.set_password(password1) #set password as new password.
                 user.save()
                 usern = Customuser.objects.get(phone_number = phone)
                 login(request,usern)
@@ -489,10 +422,9 @@ def editpassword_view(request,id):
                 return redirect(editpassword_view)
             except:
                 pass    
-
     return render(request,'userside/editpassword.html')
 
-
+#delete address function.
 def delete_address(request,id):
     address = AddAddress.objects.get(id = id)
     

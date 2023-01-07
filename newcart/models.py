@@ -3,10 +3,10 @@ from django.db import models
 from userhome.models import Customuser
 from category_adminside.models import Product
 
+
 class Cart(models.Model):
     cartid = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
-
 
     def __str__(self):
         return 'Cart: ' + str(self.id)
@@ -21,18 +21,16 @@ class CartItem(models.Model):
     is_active = models.BooleanField(default=True)
     
 
-    def subtotal(self):  
+    def subtotal(self): #to calculate the subtotal of eact cartitem product. 
         
         if self.product.discount_price:
             return (self.product.price - (self.product.price - self.product.discount_price)) * self.quantity
         else:     
             return self.product.price*self.quantity
 
-
     def __str__(self):
     
         return str(self.product)
-
 
 
 class Order(models.Model):
@@ -52,17 +50,13 @@ class Order(models.Model):
     grandtotal = models.CharField(max_length=120, null=False)
     paymentmode = models.CharField(max_length=120, null=False)
     payment_id = models.CharField(max_length=120, null=True)
-
     orderstatus = (
-
         ('pending','pending'),
         ('Out for shipping','Out for shipping'),
         ('Returned','Returned'),
         ('cancelled','cancelled'),
         ('Delivered','Delivered')
-
     )
-
     status = models.CharField(max_length=120, choices=orderstatus, default='pending')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now = True)
@@ -79,8 +73,6 @@ class OrderProduct(models.Model):
     price = models.IntegerField()
     quantity = models.IntegerField()
     
-    
-
     def __str__(self):
         return self.product.product_name
 
@@ -90,7 +82,6 @@ class UserProfile(models.Model):
 
     user = models.OneToOneField(Customuser, on_delete=models.CASCADE)
     gender_choice = (
-
         ('MALE','MALE'),
         ('FEMALE','FEMALE')
     )
