@@ -611,12 +611,10 @@ def apply_coupon(request):
         try:
             if Coupon.objects.get(coupon_code = coupon):    #if coupon exists.
                 coupon_exists = Coupon.objects.get(coupon_code = coupon)    #getting the coupon.
-
                 try:
                     if UsedCoupon.objects.get(user = request.user, coupon = coupon_exists): #if coupon is used.
                         messages.error(request,'Coupon already used')
-                        return redirect(checkout_view)
-                        
+                        return redirect(checkout_view)    
                 except:     #if coupon is not used.
                     request.session['coupon'] = coupon  #adding into session.
                     print('aaaaaaaaa',coupon)
@@ -624,11 +622,9 @@ def apply_coupon(request):
             else:   #if coupon does not exist.
                 messages.error(request,'Coupon does not exists')          
                 return redirect(checkout_view)   
-
         except:
             messages.error(request,'coupon does not exist')  
             return redirect(checkout_view)         
-
     return redirect(checkout_view)    
 
     
