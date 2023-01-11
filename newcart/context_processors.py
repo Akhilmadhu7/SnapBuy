@@ -22,7 +22,8 @@ def cart_count(request):
     else:   #if guest user(not logged in)
         try:
             cart = Cart.objects.filter(cartid = _cart_id_(request)) #getting the cart using session id
-            cart_product = CartItem.objects.filter(cart__in = cart[:2]).order_by('-id') #getting the guest user cartitem
+            cart_product = CartItem.objects.filter(cart__in = cart).order_by('id')[:2] #getting the guest user cartitem
+            print('cartpproduct is ',cart_product)
             count = CartItem.objects.filter(cart__in = cart).aggregate(Count('quantity')).get('quantity__count')  #getting the count of cartiem products.
         except :
             pass  
