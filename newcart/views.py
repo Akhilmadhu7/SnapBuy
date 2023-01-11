@@ -138,10 +138,13 @@ def inc_cartq(request,id):
     else: #if not authenticated(guest user).
         try:
             cart = Cart.objects.get(cartid = _cart_id_(request)) #getting the cart using session.
+            print('here is product',product_obj)
             cart_items = CartItem.objects.get(cart = cart, product = product_obj) #if quantity is greater than 1, then decrease 1 quantity.
             cart_items.quantity += 1
+            print('cart items didnot get',cart_items.product.product_name)
             cart_items.save()
         except: #if not authenticated(guest user).
+            print('exception takes,creating new cart id')
             cart = Cart.objects.create(cartid = _cart_id_(request)) #getting the cart using session.
             #if no products in cart, then add.
             cart_items = CartItem.objects.create(

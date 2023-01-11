@@ -132,7 +132,8 @@
                                                
                                                 
                                                 <li>
-                                                    <a href="{% url 'increase-cartq' new.id %}" title="Add to cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
+                                                    <p>incarea</p>
+                                                    <a href="{% url 'addtocart' new.id %}" title="Add to cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -230,7 +231,7 @@
                                         <!-- product-item start -->
                                         
                                         {% if not product_lap %}
-                                            <p>ajsdbfjbsdfjkbjksajfdja</p>
+                                            <p>No products available </p>
                                         {% else %}
                                             
                                         {% for p in product_lap %}
@@ -243,23 +244,17 @@
                                                 </div>
                                                 <div class="product-info">
                                                     <h6 class="product-title">
-                                                        <a href="single-product.html">{{p.product_name}}</a>
+                                                        <a href="{% url 'product_detial' p.id %}">{{p.product_name}}</a>
                                                     </h6>
-                                                    <div class="pro-rating">
-                                                        <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                        <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                        <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                        <a href="#"><i class="zmdi zmdi-star-half"></i></a>
-                                                        <a href="#"><i class="zmdi zmdi-star-outline"></i></a>
-                                                    </div>
+                                                   
                                                     <h3 class="pro-price">Rs. {{p.price}}</h3>
                                                     <ul class="action-button">
                                                         <li>
-                                                            <a href="#" title="Wishlist"><i class="zmdi zmdi-favorite"></i></a>
+                                                            <a href="{% url 'wishlist' p.id %}" title="Wishlist"><i class="zmdi zmdi-favorite"></i></a>
                                                         </li>
                                                        
                                                         <li>
-                                                            <a href="#" title="Add to cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
+                                                            <a href="{% url 'addtocart' p.id %}" title="Add to cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -279,23 +274,17 @@
                                                 </div>
                                                 <div class="product-info">
                                                     <h6 class="product-title">
-                                                        <a href="single-product.html">{{p.product_name}}</a>
+                                                        <a href="{% url 'product_detial' p.id %}">{{p.product_name}}</a>
                                                     </h6>
-                                                    <div class="pro-rating">
-                                                        <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                        <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                        <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                        <a href="#"><i class="zmdi zmdi-star-half"></i></a>
-                                                        <a href="#"><i class="zmdi zmdi-star-outline"></i></a>
-                                                    </div>
+                                                    
                                                     <h3 class="pro-price">Rs. {{p.price}}</h3>
                                                     <ul class="action-button">
                                                         <li>
-                                                            <a href="#" title="Wishlist"><i class="zmdi zmdi-favorite"></i></a>
+                                                            <a href="{% url 'wishlist' p.id %}" title="Wishlist"><i class="zmdi zmdi-favorite"></i></a>
                                                         </li>
                                                        
                                                         <li>
-                                                            <a href="#" title="Add to cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
+                                                            <a href="{% url 'addtocart' p.id %}" title="Add to cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -313,23 +302,17 @@
                                                 </div>
                                                 <div class="product-info">
                                                     <h6 class="product-title">
-                                                        <a href="single-product.html">{{p.product_name}}</a>
+                                                        <a href="{% url 'product_detial' p.id %}">{{p.product_name}}</a>
                                                     </h6>
-                                                    <div class="pro-rating">
-                                                        <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                        <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                        <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                        <a href="#"><i class="zmdi zmdi-star-half"></i></a>
-                                                        <a href="#"><i class="zmdi zmdi-star-outline"></i></a>
-                                                    </div>
+                                                    
                                                     <h3 class="pro-price">Rs. {{p.price}}</h3>
                                                     <ul class="action-button">
                                                         <li>
-                                                            <a href="#" title="Wishlist"><i class="zmdi zmdi-favorite"></i></a>
+                                                            <a href="{% url 'wishlist' p.id %}" title="Wishlist"><i class="zmdi zmdi-favorite"></i></a>
                                                         </li>
                                                        
                                                         <li>
-                                                            <a href="#" title="Add to cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
+                                                            <a href="{% url 'addtocart' p.id %}" title="Add to cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -453,23 +436,17 @@
                                                 </div>
                                                 <div class="product-info">
                                                     <h6 class="product-title">
-                                                        <a href="single-product.html">{{offer.product_name}}</a>
+                                                        <a href="{% url 'product_detial' offer.id %}">{{offer.product_name}}</a>
                                                     </h6>
-                                                    <div class="pro-rating">
-                                                        <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                        <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                        <a href="#"><i class="zmdi zmdi-star"></i></a>
-                                                        <a href="#"><i class="zmdi zmdi-star-half"></i></a>
-                                                        <a href="#"><i class="zmdi zmdi-star-outline"></i></a>
-                                                    </div>
+                                                   
                                                     <h3 class="pro-price">Rs. <del class="text-danger">{{offer.price}}</del> &nbsp;{{offer.discount_price}}</h3>
                                                     <ul class="action-button">
                                                         <li>
-                                                            <a href="#" title="Wishlist"><i class="zmdi zmdi-favorite"></i></a>
+                                                            <a href="{% url 'wishlist' offer.id %}" title="Wishlist"><i class="zmdi zmdi-favorite"></i></a>
                                                         </li>
                                                        
                                                         <li>
-                                                            <a href="#" title="Add to cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
+                                                            <a href="{% url 'addtocart' offer.id %}" title="Add to cart"><i class="zmdi zmdi-shopping-cart-plus"></i></a>
                                                         </li>
                                                     </ul>
                                                 </div>
