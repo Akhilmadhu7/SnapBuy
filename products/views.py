@@ -9,6 +9,7 @@ from newcart.models import CartItem,Cart
 from newcart.views import _cart_id_
 from . models import Wishlist,WishlistItem
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
 from django.utils import timezone
 import datetime 
 import pytz
@@ -196,8 +197,10 @@ def add_wishlist_view(request,id):
     else:
         try:  #collect wishlist using session 
             wishlist = Wishlist.objects.get(wishlistid = _wishid_(request))  
+            print('here not try')
         except Wishlist.DoesNotExist:
-            wishlist = Wishlist.objects.create(wishlistid = _wishid_(request))    
+            wishlist = Wishlist.objects.create(wishlistid = _wishid_(request))   
+            print('here not except ') 
 
         try: #if wishlist and the product is already in wishlist, then remove 
             wishitem= WishlistItem.objects.get(product = product_obj)
@@ -238,7 +241,14 @@ def wishlist_view(request,wishitem = 0):
 def remove_wish_view(request,id):
     
     product_obj = Product.objects.get(id = id)
-    wishitem = WishlistItem.objects.get(product = product_obj)
-    wishitem.delete()
+    if request.user.is_authenticated:
+        wishitem = WishlistItem.objects.get(Q(product = product_obj) & Q(user=request.user))
+        wishitem.delete()
+    else:
+        wishlist = Wishlist.objects.get(wishlistid = _wishid_(request)) 
+        wishitem = WishlistItem.objects.get(Q(product=product_obj) & Q(wishlist=wishlist))
+        wishitem.delete()
 
-    return redirect(wishlist_view)
+            
+
+    return redirect(wishlist_view) 
